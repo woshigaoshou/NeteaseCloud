@@ -1,32 +1,42 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <router-view></router-view>
+    <div class="audio">
+      <audio :src="$store.state.currentMusic" autoplay="autoplay">
+        <source type="audio/mpeg" />
+      </audio>
     </div>
-    <router-view/>
   </div>
 </template>
 
+<script>
+export default {
+  name: "app",
+  components: {}
+};
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url("./assets/css/base.css");
+@import url("./assets/icon/style.css");
+.swiper-pagination-bullet-active {
+  background: #fff !important;
 }
-
-#nav {
-  padding: 30px;
+.icon-arrow-left {
+  padding: 2.4vh 0 0 2.4vh;
+  font-size: 8vw;
+  color: #fff;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.audio {
+  position: fixed;
+  bottom: 0;
+  height: 8vh;
+  width: 100%;
+  z-index: 9999999;
+  background-color: red;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+/* .mvScroll .content {
+  display: flex;
+  flex-flow: nowrap !important;
+  width: 400vw;
+} */
 </style>
