@@ -189,7 +189,7 @@ p {
 }
 .icon-more-vertical {
   font-size: 7vw;
-  margin-top: 0.8vh;
+  margin-top: 1.3vh;
   margin-right: 3vw;
 }
 .icon-search2 {

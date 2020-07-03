@@ -173,7 +173,7 @@ export default {
   height: 100vh;
   width: 85%;
   background-color: #fff;
-  z-index: 999;
+  z-index: 99999999;
   transform: translate(-900px);
   animation-name: menuBack;
   animation-duration: 0.8s;
@@ -193,7 +193,7 @@ export default {
   animation-name: mask;
   background-color: rgba(0, 0, 0, 0.5);
   animation-duration: 1.2s;
-  z-index: 999;
+  z-index: 99999999;
 }
 .scroll {
   /* margin-bottom: 8vh; */

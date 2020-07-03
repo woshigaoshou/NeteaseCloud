@@ -84,14 +84,12 @@ export default {
       this.showMenu = true;
       this.flag = true;
     });
-    this.$nextTick(() => {
-      if (this.isRecommendActive) {
-        this.$bus.$on("scroll", position => {
-          this.transparency = -position.y / 50 < 1 ? -position.y / 50 : 1;
-          this.scrollY = -position;
-        });
-      }
-    });
+    if (this.isRecommendActive) {
+      this.$bus.$on("scroll", position => {
+        this.transparency = -position.y / 50 < 1 ? -position.y / 50 : 1;
+        this.scrollY = -position;
+      });
+    }
     this.$bus.$on("backClick", index => {
       // console.log(this.$refs.scroll);
       this.$refs.scroll.scrollTo(0, -this.$store.state.ThemeTopYs[index]);

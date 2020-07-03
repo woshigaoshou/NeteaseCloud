@@ -43,6 +43,7 @@ export default {
       flag: false
     };
   },
+  mixins: [unablePlayMixin],
   methods: {
     changePlay() {
       this.$store.commit("changePlay");
