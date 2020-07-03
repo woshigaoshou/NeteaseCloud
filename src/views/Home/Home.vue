@@ -14,6 +14,7 @@
       ></NavBar>
       <Scroll
         class="homeScroll"
+        :class="{'isPlay': $store.state.currentMusic.isShow}"
         :probeType="3"
         :style="{'background-color': backColor}"
         ref="scroll"
@@ -73,6 +74,7 @@ export default {
   created() {
     this.getBanner();
     this.isSingerActive = this.$route.path === "/Home/Singer" ? true : false;
+    // console.log(this.isSingerActive);
 
     // console.log(this.$route);
     // console.log(this.$store.state.cookie);
@@ -82,12 +84,14 @@ export default {
       this.showMenu = true;
       this.flag = true;
     });
-    if (this.isRecommendActive) {
-      this.$bus.$on("scroll", position => {
-        this.transparency = -position.y / 50 < 1 ? -position.y / 50 : 1;
-        this.scrollY = -position;
-      });
-    }
+    this.$nextTick(() => {
+      if (this.isRecommendActive) {
+        this.$bus.$on("scroll", position => {
+          this.transparency = -position.y / 50 < 1 ? -position.y / 50 : 1;
+          this.scrollY = -position;
+        });
+      }
+    });
     this.$bus.$on("backClick", index => {
       // console.log(this.$refs.scroll);
       this.$refs.scroll.scrollTo(0, -this.$store.state.ThemeTopYs[index]);
@@ -142,5 +146,8 @@ export default {
   overflow: hidden;
   /* background-color: #fff; */
   /* z-index: 999; */
+}
+.isPlay {
+  height: calc(100vh - 20vh - 8vh);
 }
 </style>

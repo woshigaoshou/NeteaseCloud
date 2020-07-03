@@ -1,18 +1,34 @@
 <template>
   <div class="rank">
     <h3>官方榜</h3>
-    <ChinaRankItem v-for="(item,index) in chinaRank" :key="index" :Rank="item"></ChinaRankItem>
+    <ChinaRankItem
+      v-for="(item,index) in chinaRank"
+      :key="index"
+      :Rank="item"
+      @rankClick="rankClick"
+    ></ChinaRankItem>
     <musicRank title="推荐榜">
-      <musicRankItem v-for="(item,index) in recommendRank" :key="index" :Rank="item"></musicRankItem>
+      <musicRankItem
+        v-for="(item,index) in recommendRank"
+        :key="index"
+        :Rank="item"
+        @rankClick="rankClick"
+      ></musicRankItem>
     </musicRank>
     <musicRank title="更多榜单">
-      <musicRankItem v-for="(item,index) in regionRank" :key="index" :Rank="item"></musicRankItem>
+      <musicRankItem
+        v-for="(item,index) in regionRank"
+        :key="index"
+        :Rank="item"
+        @rankClick="rankClick"
+      ></musicRankItem>
     </musicRank>
   </div>
 </template>
 
 <script>
-import { getRankData } from "@/network/rank";
+import { getRankData, getRankDetail } from "@/network/rank";
+import { ResourcesItemClickMixin } from "@/common/mixin";
 
 import ChinaRankItem from "./childComps/ChinaRankItem";
 import musicRank from "./childComps/musicRank";
@@ -32,6 +48,7 @@ export default {
       recommendRank: []
     };
   },
+  mixins: [ResourcesItemClickMixin],
   methods: {
     getRankData() {
       getRankData().then(res => {
@@ -52,6 +69,20 @@ export default {
           }
         }
       });
+    },
+    getRankDetail(id) {
+      getRankDetail(id)
+        .then(res => {
+          console.log(res);
+          return id;
+        })
+        .then(res => {
+          // console.log(res);
+          this.ResourcesItemClick(0, res);
+        });
+    },
+    rankClick(id) {
+      this.getRankDetail(id);
     }
   },
   created() {

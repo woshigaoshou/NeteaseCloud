@@ -11,12 +11,29 @@ export function getBanner(type) {
 }
 
 export function getSongUrl(ids) {
+  if (!Array.isArray(ids)) {
+    return request({
+      url: "/song/url",
+      params: {
+        id: ids
+      }
+    })
+  }
+  else {
+    return request({
+      url: "/song/url",
+      params: {
+        id: ids.join(",")
+      }
+    })
+  }
+}
 
+export function checkMusic(id) {
   return request({
-    url: "/song/url",
+    url: "/check/music",
     params: {
-      id: ids.join(",")
+      id
     }
   })
 }
-

@@ -12,5 +12,15 @@ export default {
   },
   changeMusic(state, currentMusic) {
     state.currentMusic = currentMusic;
+    // console.log(state.currentMusic);
+  },
+  changePlay(state) {
+    state.currentMusic.isPlay = !state.currentMusic.isPlay;
+  },
+  changeTipsShow(state) {
+    state.tipsShow = !state.tipsShow;
+  },
+  changeShow(state) {
+    state.currentMusic.isShow = !state.currentMusic.isShow;
   }
 }

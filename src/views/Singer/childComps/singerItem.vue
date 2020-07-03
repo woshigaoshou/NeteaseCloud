@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title">{{ title }}</div>
-    <div v-for="(item,index) in list" :key="index" class="listItem">
+    <div v-for="(item,index) in list" :key="index" class="listItem" @click="singerClick(item.id)">
       <div class="picUrl">
         <img :src="item.picUrl" alt />
       </div>
@@ -21,6 +21,11 @@ export default {
     list: {
       type: Array,
       default: []
+    }
+  },
+  methods: {
+    singerClick(id) {
+      this.$emit("singerClick", id);
     }
   }
 };

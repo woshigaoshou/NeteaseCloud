@@ -14,7 +14,15 @@ const state = {
   userId: sessionStorage.getItem('userId') ? sessionStorage.getItem('userId') : '',
   ThemeTopYs: [],
   id: '',
-  currentMusic: ''
+  currentMusic: {
+    url: "",
+    al: { name: "", picUrl: "" },
+    ar: [{ name: "" }],
+    isPlay: false,
+    isShow: false,
+    name: ""
+  },
+  tipsShow: false
 }
 
 export default new Vuex.Store({

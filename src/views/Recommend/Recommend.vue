@@ -45,7 +45,7 @@ import BScroll from "better-scroll";
 // import Scroll from "@/components/common/Scroll/Scroll";
 
 import { getHomeData } from "@/network/home";
-import { ResourcesItemClickMixin } from "@/common/mixin";
+import { ResourcesItemClickMixin, musicPlayMixin } from "@/common/mixin";
 
 import {
   getRecommendResource,
@@ -74,7 +74,7 @@ export default {
       RecommendDjprogram: []
     };
   },
-  mixins: [ResourcesItemClickMixin],
+  mixins: [ResourcesItemClickMixin, musicPlayMixin],
   methods: {
     //获取数据
     getRecommendResource() {
@@ -87,13 +87,14 @@ export default {
     },
     getRecommendSongs() {
       getRecommendSongs().then(res => {
-        // console.log(res);
+        console.log(res);
         res.data.dailySongs.forEach(item => {
           let tmp = {};
           tmp.blurPicUrl = item.al.picUrl;
           tmp.name = item.name;
           tmp.reason = item.reason;
           tmp.artist = item.al.name;
+          tmp.id = item.id;
           this.RecommendSongs.push(tmp);
         });
         let length = this.RecommendSongs.length;

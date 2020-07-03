@@ -2,7 +2,7 @@
   <div class="Profile">
     <ProfileResources
       :playlist="playlist"
-      :weekData="weekData"
+      :allData="allData"
       :paidAlbums="paidAlbums"
       @ResourcesItemClick="ResourcesItemClick"
     ></ProfileResources>
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       playlist: [],
-      weekData: [],
+      allData: [],
       paidAlbums: [],
       ResourcesName: ["自建歌单", "收藏歌单"],
       showResources: []
@@ -63,10 +63,10 @@ export default {
       });
     },
     getRecord() {
-      getRecord(this.$store.state.userId, 1).then(res => {
-        // console.log(res);
-        this.weekData = res.weekData;
-        console.log(this.weekData);
+      getRecord(this.$store.state.userId, 0).then(res => {
+        console.log(res);
+        this.allData = res.allData;
+        // console.log(this.weekData);
       });
     },
     getDigitalAlbum() {

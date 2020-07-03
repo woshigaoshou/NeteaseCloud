@@ -1,10 +1,10 @@
 <template>
   <div class="singer">
-    <singerItem :list="hotSinger" title="热门" ref="hotSinger"></singerItem>
-    <singerItem :list="C_Singers" title="华语" ref="C_Singers"></singerItem>
-    <singerItem :list="EA_Singers" title="欧美" ref="EA_Singers"></singerItem>
-    <singerItem :list="SK_Singers" title="韩国" ref="SK_Singers"></singerItem>
-    <singerItem :list="JP_Singers" title="日本" ref="JP_Singers"></singerItem>
+    <singerItem :list="hotSinger" title="热门" ref="hotSinger" @singerClick="singerClick"></singerItem>
+    <singerItem :list="C_Singers" title="华语" ref="C_Singers" @singerClick="singerClick"></singerItem>
+    <singerItem :list="EA_Singers" title="欧美" ref="EA_Singers" @singerClick="singerClick"></singerItem>
+    <singerItem :list="SK_Singers" title="韩国" ref="SK_Singers" @singerClick="singerClick"></singerItem>
+    <singerItem :list="JP_Singers" title="日本" ref="JP_Singers" @singerClick="singerClick"></singerItem>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import singerItem from "./childComps/singerItem";
 
 import { gethotSinger, getRegionSinger } from "@/network/singer";
 
-import { debounce } from "@/common/utils";
+import { ResourcesItemClickMixin } from "@/common/mixin";
 
 export default {
   name: "Singer",
@@ -32,6 +32,7 @@ export default {
       changeIndex: 0
     };
   },
+  mixins: [ResourcesItemClickMixin],
   methods: {
     gethotSinger(offset, limit) {
       gethotSinger(offset, limit).then(res => {
@@ -62,6 +63,11 @@ export default {
             }
           )
         );
+    },
+
+    //事件方法
+    singerClick(id) {
+      this.$router.push({ path: "/singerPlaylist", query: { id } });
     }
   },
   created() {
@@ -88,36 +94,38 @@ export default {
       }, 1000);
     });
 
-    this.$bus.$on("scroll", position => {
-      // console.log(-position.y);
-      // console.log(this.getThemeTopYs);
-      if (this.$refs.C_Singers.$el.offsetTop !== this.getThemeTopYs[1]) {
-        this.getThemeTopYs = [];
-        this.getThemeTopYs[0] = 0;
-        this.getThemeTopYs.push(this.$refs.C_Singers.$el.offsetTop);
-        this.getThemeTopYs.push(this.$refs.EA_Singers.$el.offsetTop);
-        this.getThemeTopYs.push(this.$refs.SK_Singers.$el.offsetTop);
-        this.getThemeTopYs.push(this.$refs.JP_Singers.$el.offsetTop);
-        this.$store.commit("setThemeTopYs", this.getThemeTopYs);
-      }
+    this.$nextTick(() => {
+      this.$bus.$on("scroll", position => {
+        // console.log(-position.y);
+        // console.log(this.getThemeTopYs);
+        if (this.$refs.C_Singers.$el.offsetTop !== this.getThemeTopYs[1]) {
+          this.getThemeTopYs = [];
+          this.getThemeTopYs[0] = 0;
+          this.getThemeTopYs.push(this.$refs.C_Singers.$el.offsetTop);
+          this.getThemeTopYs.push(this.$refs.EA_Singers.$el.offsetTop);
+          this.getThemeTopYs.push(this.$refs.SK_Singers.$el.offsetTop);
+          this.getThemeTopYs.push(this.$refs.JP_Singers.$el.offsetTop);
+          this.$store.commit("setThemeTopYs", this.getThemeTopYs);
+        }
 
-      let scrollY = -position.y;
-      if (scrollY < this.getThemeTopYs[1]) {
-        this.changeIndex = 0;
-      } else if (scrollY < this.getThemeTopYs[2]) {
-        this.changeIndex = 1;
-      } else if (scrollY < this.getThemeTopYs[3]) {
-        this.changeIndex = 2;
-      } else if (scrollY < this.getThemeTopYs[4]) {
-        this.changeIndex = 3;
-      } else {
-        this.changeIndex = 4;
-      }
-      if (this.currentIndex !== this.changeIndex) {
-        // console.log(this.changeIndex);
-        this.currentIndex = this.changeIndex;
-        this.$bus.$emit("changeIndex", this.currentIndex);
-      }
+        let scrollY = -position.y;
+        if (scrollY < this.getThemeTopYs[1]) {
+          this.changeIndex = 0;
+        } else if (scrollY < this.getThemeTopYs[2]) {
+          this.changeIndex = 1;
+        } else if (scrollY < this.getThemeTopYs[3]) {
+          this.changeIndex = 2;
+        } else if (scrollY < this.getThemeTopYs[4]) {
+          this.changeIndex = 3;
+        } else {
+          this.changeIndex = 4;
+        }
+        if (this.currentIndex !== this.changeIndex) {
+          // console.log(this.changeIndex);
+          this.currentIndex = this.changeIndex;
+          this.$bus.$emit("changeIndex", this.currentIndex);
+        }
+      });
     });
   }
 };

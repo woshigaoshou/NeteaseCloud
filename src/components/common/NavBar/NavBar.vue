@@ -4,7 +4,7 @@
       class="NavBar-item"
       v-for="(item,index) in titles"
       :key="index"
-      :class="{active: currentIndex === index}"
+      :class="{active: currentIndex === index} "
       @click="itemClick(index)"
     >
       <router-link :to="'/Home' + path[index]" class="title">{{item}}</router-link>
@@ -60,8 +60,9 @@ export default {
   text-align: center;
   font-size: 4.5vw;
   color: #fff;
-  padding: 0 40px;
-  margin-bottom: 7.5vh;
+  padding: 0 12vw;
+  margin-bottom: 6.5vh;
+  margin-top: 1vh;
 }
 .NavBar div {
   flex: 1;
@@ -76,5 +77,8 @@ export default {
 .active .title {
   font-weight: 700;
   border-bottom: 2px solid #fff;
+}
+.NavBar-item {
+  margin: 0 5vw;
 }
 </style>

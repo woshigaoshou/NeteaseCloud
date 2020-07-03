@@ -10,6 +10,8 @@ const Rank = () => import('@/views/Rank/Rank');
 const Singer = () => import('@/views/Singer/Singer');
 const Recommend = () => import('@/views/Recommend/Recommend');
 const PlaylistDetail = () => import('@/views/PlaylistDetail/PlaylistDetail');
+const SingerPlaylist = () => import('@/views/SingerPlaylist/SingerPlaylist');
+const RecentPlay = () => import('@/views/RecentPlay/RecentPlay');
 
 Vue.use(VueRouter)
 
@@ -57,6 +59,14 @@ const routes = [
   {
     path: '/playlistDetail',   //query传递方式
     component: PlaylistDetail
+  },
+  {
+    path: '/singerPlaylist',
+    component: SingerPlaylist
+  },
+  {
+    path: '/recentPlay',
+    component: RecentPlay
   }
 ]
 

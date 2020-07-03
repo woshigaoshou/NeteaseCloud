@@ -61,7 +61,7 @@ export default {
         return [];
       }
     },
-    weekData: {
+    allData: {
       type: Array,
       default() {
         return [];
@@ -78,6 +78,8 @@ export default {
     ResourcesItemClick(index) {
       if (index === 0) {
         this.$emit("ResourcesItemClick", index, this.ProfileResources[0].id);
+      } else if (index === 1) {
+        this.$emit("ResourcesItemClick", index, this.$store.state.userId);
       }
     }
   },
@@ -87,7 +89,7 @@ export default {
       this.ProfileResources[0].id = newValue[0].id;
       // console.log(newValue[0].id);
     },
-    weekData(newValue, oldValue) {
+    allData(newValue, oldValue) {
       this.ProfileResources[1].count = newValue.length;
       // console.log(newValue);
     },

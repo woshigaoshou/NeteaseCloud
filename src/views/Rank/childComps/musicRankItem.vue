@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" @click="rankClick">
     <div class="coverImg">
       <img :src="Rank.coverImgUrl" />
       <p class="updateFrequency">{{ Rank.updateFrequency }}</p>
@@ -15,6 +15,11 @@ export default {
     Rank: {
       type: Object,
       default: {}
+    }
+  },
+  methods: {
+    rankClick() {
+      this.$emit("rankClick", this.Rank.id);
     }
   }
 };

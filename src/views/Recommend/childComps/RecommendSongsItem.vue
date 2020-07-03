@@ -1,5 +1,5 @@
 <template>
-  <div class="SongsItem">
+  <div class="SongsItem" @click="musicPlay">
     <div class="itemImg">
       <img :src="SongsItem.blurPicUrl" alt />
     </div>
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { checkMusic } from "@/network/home";
+
 export default {
   name: "RecommendSongsItem",
   props: {
@@ -23,6 +25,17 @@ export default {
       default() {
         return {};
       }
+    }
+  },
+  methods: {
+    musicPlay() {
+      checkMusic(this.SongsItem.id).then(res => {
+        if (res.success === true) {
+          this.$bus.$emit("musicPlay", this.SongsItem.id);
+        } else {
+          this.$emit("noCopyright");
+        }
+      });
     }
   }
 };
@@ -53,17 +66,22 @@ export default {
 .song,
 .reason {
   height: 50%;
+  width: 67vw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .song {
   margin-top: 0.5vh;
+  width: 67vw;
 }
 .reason {
   margin-top: -1vh;
   color: rgb(223, 49, 78);
   font-size: 3.1vw;
 }
-.song :nth-child(2),
-.song :nth-child(3) {
+.song span:nth-child(2),
+.song span:nth-child(3) {
   color: rgb(145, 143, 143);
   font-size: 3vw;
   margin-left: 1vw;

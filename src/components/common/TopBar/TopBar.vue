@@ -31,8 +31,8 @@ export default {
   text-align: center;
   color: #fff;
   line-height: 5.5vh;
-  padding-bottom: 3vh;
-  padding-top: 1vh;
+  padding-bottom: 2vh;
+  padding-top: 2vh;
 }
 .TopBar .left {
   width: 19vw;

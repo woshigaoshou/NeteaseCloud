@@ -14,8 +14,16 @@ export function getRegionSinger(type) {
   return request({
     url: "/toplist/artist",
     params: {
-      type,
+      type
     }
   })
 }
 
+export function getSingerInfo(id) {
+  return request({
+    url: "/artists",
+    params: {
+      id
+    }
+  })
+}

@@ -11,17 +11,23 @@ export function getPlaylistDetail(id, cookie) {
 }
 
 export function getSongDetail(ids) {
-  // let id = JSON.parse(sessionStorage.getItem('ids'));
-  // console.log(ids[0]);
+  // console.log(typeof ids === Object);
+  // console.log(1);
 
-  // console.log(id[0]);
-
-  // console.log(ids.join(","));
-
-  return request({
-    url: "/song/detail",
-    params: {
-      ids: ids.join(",")
-    }
-  })
+  if (!Array.isArray(ids)) {
+    return request({
+      url: "/song/detail",
+      params: {
+        ids
+      }
+    })
+  }
+  else {
+    return request({
+      url: "/song/detail",
+      params: {
+        ids: ids.join(",")
+      }
+    })
+  }
 }

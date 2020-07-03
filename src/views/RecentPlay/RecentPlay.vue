@@ -8,12 +8,10 @@
         <div class="icon-more-vertical"></div>
       </div>
     </TopBar>
-    <playlist :trackCount="playlist.trackCount" ref="playlist1" class="playlist1" v-show="isFixed"></playlist>
-    <!-- <Scroll class="playlistScroll" :probeType="3" ref="scroll"> -->
+    <playlist :trackCount="songs.length" ref="playlist1" class="playlist1" v-show="isFixed"></playlist>
     <div ref="box" class="playlistScroll" :class="{'isPlay': $store.state.currentMusic.isShow}">
       <div class="content" ref="content">
-        <playlistTop :playlist="playlist"></playlistTop>
-        <playlist :trackCount="playlist.trackCount" ref="playlist2">
+        <playlist :trackCount="songs.length" ref="playlist2">
           <playlistItem
             v-for="(item,index) in songs"
             :key="index"
@@ -25,7 +23,6 @@
         </playlist>
       </div>
     </div>
-    <!-- </Scroll> -->
     <div class="TopColor">
       <div></div>
       <img :src="playlist.coverImgUrl" alt />
@@ -36,26 +33,22 @@
 
 <script>
 import TopBar from "@/components/common/TopBar/TopBar";
-import playlistTop from "./childComps/playlistTop";
-import playlistItem from "./childComps/playlistItem";
-import playlist from "./childComps/playlist";
-// import Scroll from "@/components/common/Scroll/Scroll";
+import playlistItem from "../PlaylistDetail/childComps/playlistItem";
+import playlist from "../PlaylistDetail/childComps/playlist";
 import BScroll from "better-scroll";
 
 import { returnHistoryMixin, musicPlayMixin } from "@/common/mixin";
-
 import { getPlaylistDetail, getSongDetail } from "@/network/playlistDetail";
 import { getSongUrl } from "@/network/home";
-import { getSingerPlaylist } from "@/network/singer";
+
+import { getRecord } from "@/network/profile";
 
 export default {
   name: "PlaylistDetail",
   components: {
     TopBar,
-    playlistTop,
     playlist,
     playlistItem
-    // Scroll
   },
   data() {
     return {
@@ -74,53 +67,29 @@ export default {
   computed: {
     backColor() {
       return "rgba(207, 68, 58 , " + this.transparency + ")";
+      // return "#fff";
     }
   },
   methods: {
-    async getPlaylistDetail(id, cookie) {
-      let ids = [];
-      await getPlaylistDetail(id, cookie).then((res, reject) => {
-        console.log(res);
-        this.playlist = res.playlist;
-        this.playlist.trackIds.forEach((item, index) => {
-          ids.push(item.id);
+    getRecord(id, type) {
+      getRecord(id, type)
+        .then(res => {
+          console.log(res);
+          res.allData.forEach(item => {
+            this.songs.push(item.song);
+          });
+        })
+        .then(res => {
+          console.log(this.songs);
         });
-      });
-      return new Promise((resolve, reject) => {
-        resolve(ids);
-      });
-    },
-    async getSongDetail() {
-      this.trackIds = await this.getPlaylistDetail(
-        this.$route.query.id,
-        this.$store.state.cookie
-      );
-      // console.log(this.trackIds);
-      getSongDetail(this.trackIds).then(res => {
-        // console.log(res);
-        this.songs = res.songs;
-        // console.log(this.songs);
-      });
-      getSongUrl(this.trackIds).then(res => {
-        // console.log(res);
-        this.musicUrl = res.data;
-      });
     }
   },
   mixins: [returnHistoryMixin, musicPlayMixin],
   created() {
-    // this.getPlaylistDetail(this.$route.query.id, this.$store.state.cookie);
-    this.getSongDetail();
-
+    this.getRecord(this.$route.query.id, 0);
     this.$nextTick(() => {
-      // this.offsetY =
-      //   this.$refs.playlist2.$el.offsetTop -
-      //   this.$refs.playlistTopBar.$el.clientHeight;
       this.offsetY = this.$refs.playlist2.$el.offsetTop;
     });
-    // console.log(this.$route);
-
-    // console.log(this.$route.params.id);
   },
   mounted() {
     this.$nextTick(() => {
@@ -131,7 +100,6 @@ export default {
         click: true
       });
       this.scroll.on("scroll", position => {
-        // console.log(position);
         if (this.flag) {
           this.transparency = -position.y / 130 > 1 ? 1 : -position.y / 130;
           this.scrollY = -position;
@@ -140,14 +108,10 @@ export default {
           if (this.songs.length > 10) {
             this.isFixed = -position.y > this.offsetY;
           }
-          // console.log(this.isFixed);
-          // console.log(this.offsetY);
-          // console.log(this.$refs.playlist2.$el.offsetTop);
-          // console.log(this.$refs.playlistTopBar.$el.clientHeight);
 
           //设置显示歌单名比例
           if (this.transparency > 0.6) {
-            this.listName = this.playlist.name;
+            this.listName = "最近播放";
           } else {
             this.listName = "歌单";
           }
@@ -156,9 +120,7 @@ export default {
     });
   },
   destroyed() {
-    // location.reload();
     this.flag = false;
-    // console.log("离开了");
   }
 };
 </script>
@@ -236,7 +198,7 @@ p {
   filter: blur(40px);
 }
 .TopColor div:nth-child(1) {
-  background-color: rgba(148, 132, 132, 0.5);
+  background-color: rgba(124, 115, 115, 0.5);
   width: 100%;
   height: 100%;
   z-index: 1;

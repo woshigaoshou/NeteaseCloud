@@ -99,6 +99,41 @@ export const ResourcesItemClickMixin = {
       if (index === 0) {
         this.$router.push({ path: "/playlistDetail", query: { id } });
       }
+      else if (index === 1) {
+        this.$router.push({ path: "/recentPlay", query: { id } });
+      }
+    }
+  }
+}
+
+export const musicPlayMixin = {
+  methods: {
+    musicPlay(id) {
+      this.$bus.$emit("musicPlay", id);
+    },
+    noCopyright() {
+      this.$bus.$emit("noCopyright");
+    }
+  }
+}
+
+export const unablePlayMixin = {
+  data() {
+    return {
+      showFlag: true
+    }
+  },
+  methods: {
+    unablePlay() {
+      if (this.showFlag) {
+        this.showFlag = false;
+        this.$store.commit("changeTipsShow");
+        let timer = setTimeout(() => {
+          this.$store.commit("changeTipsShow");
+          this.showFlag = true;
+          clearTimeout(timer);
+        }, 2000);
+      }
     }
   }
 }

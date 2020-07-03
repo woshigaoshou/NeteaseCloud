@@ -1,5 +1,5 @@
 <template>
-  <div class="playlistItem" @click="autoPlay">
+  <div class="playlistItem" @click="musicPlay">
     <div class="index">{{ index }}</div>
     <div class="content">
       <div class="textTop">{{ songsItem.name }}</div>
@@ -13,6 +13,9 @@
 </template>
 
 <script>
+import { checkMusic } from "@/network/home";
+import { unablePlayMixin } from "@/common/mixin";
+
 export default {
   name: "playlistItem",
   data() {
@@ -21,12 +24,24 @@ export default {
       ar: {}
     };
   },
+  mixins: [unablePlayMixin],
   methods: {
-    autoPlay() {
+    musicPlay() {
       // console.log(this.index);
       // console.log(this.songsItem);
-
-      this.$emit("autoPlay", this.songsItem.id);
+      checkMusic(this.songsItem.id)
+        .then(res => {
+          console.log(res);
+          if (res.success === true) {
+            this.$emit("musicPlay", this.songsItem.id);
+          } else {
+            this.$emit("noCopyright");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.unablePlay();
+        });
     }
   },
   props: {
