@@ -83,6 +83,6 @@ img {
   font-size: 3vw;
 }
 .changeHeight {
-  height: 22vh;
+  height: 23vh;
 }
 </style>

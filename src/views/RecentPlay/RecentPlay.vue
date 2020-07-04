@@ -11,7 +11,7 @@
     <playlist :trackCount="songs.length" ref="playlist1" class="playlist1" v-show="isFixed"></playlist>
     <div ref="box" class="playlistScroll" :class="{'isPlay': $store.state.currentMusic.isShow}">
       <div class="content" ref="content">
-        <playlist :trackCount="songs.length" ref="playlist2">
+        <playlist :trackCount="songs.length" ref="playlist2" @playAll="playAll">
           <playlistItem
             v-for="(item,index) in songs"
             :key="index"
@@ -37,7 +37,11 @@ import playlistItem from "../PlaylistDetail/childComps/playlistItem";
 import playlist from "../PlaylistDetail/childComps/playlist";
 import BScroll from "better-scroll";
 
-import { returnHistoryMixin, musicPlayMixin } from "@/common/mixin";
+import {
+  returnHistoryMixin,
+  musicPlayMixin,
+  playAllMixin
+} from "@/common/mixin";
 import { getPlaylistDetail, getSongDetail } from "@/network/playlistDetail";
 import { getSongUrl } from "@/network/home";
 
@@ -84,7 +88,7 @@ export default {
         });
     }
   },
-  mixins: [returnHistoryMixin, musicPlayMixin],
+  mixins: [returnHistoryMixin, musicPlayMixin, playAllMixin],
   created() {
     this.getRecord(this.$route.query.id, 0);
     this.$nextTick(() => {
@@ -160,11 +164,16 @@ p {
   top: 0.7vh;
   font-size: 8vw;
 }
+/* 解决手机浏览器底部工具栏问题 8vh*/
+
 .playlistScroll {
   position: relative;
-  height: 90.5vh;
+  height: calc(90.5vh);
   overflow: hidden;
   z-index: 1;
+}
+.content {
+  padding-bottom: 8vh;
 }
 .isPlay {
   height: calc(90.5vh - 8vh);

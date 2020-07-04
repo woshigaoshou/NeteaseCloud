@@ -5,7 +5,7 @@
       :key="index"
       class="backItem"
       :class="{ active: currentIndex===index }"
-      @click="backClick(index)"
+      @click.stop="backClick(index)"
     >{{ item }}</div>
   </div>
 </template>

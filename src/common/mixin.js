@@ -137,3 +137,15 @@ export const unablePlayMixin = {
     }
   }
 }
+
+export const playAllMixin = {
+  methods: {
+    playAll() {
+      let musicId = [];
+      this.songs.forEach(item => {
+        musicId.push(item.id);
+      })
+      this.$bus.$emit('playAll', musicId);
+    }
+  }
+}

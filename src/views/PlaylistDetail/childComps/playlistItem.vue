@@ -75,7 +75,7 @@ export default {
 .playlistItem {
   display: flex;
   height: 5vh;
-  margin: 2vh 0;
+  margin: 3vh 0;
 }
 .textBottom {
   display: flex;

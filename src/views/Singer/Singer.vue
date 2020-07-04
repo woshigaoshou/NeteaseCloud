@@ -78,27 +78,32 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      let timer = setTimeout(() => {
-        this.getThemeTopYs = [];
-        this.getThemeTopYs[0] = 0;
-        this.getThemeTopYs.push(this.$refs.C_Singers.$el.offsetTop);
-        this.getThemeTopYs.push(this.$refs.EA_Singers.$el.offsetTop);
-        this.getThemeTopYs.push(this.$refs.SK_Singers.$el.offsetTop);
-        this.getThemeTopYs.push(this.$refs.JP_Singers.$el.offsetTop);
-        // console.log(this.$refs.C_Singers.$el.offsetTop);
-        // console.log(this.$refs.EA_Singers.$el.offsetTop);
-        // console.log(this.$refs.SK_Singers.$el.offsetTop);
-        // console.log(this.$refs.JP_Singers.$el.offsetTop);
-        this.$store.commit("setThemeTopYs", this.getThemeTopYs);
-        clearTimeout(timer);
-      }, 1000);
+      // let timer = setTimeout(() => {
+      this.getThemeTopYs = [];
+      this.getThemeTopYs[0] = 0;
+      this.getThemeTopYs.push(this.$refs.C_Singers.$el.offsetTop);
+      this.getThemeTopYs.push(this.$refs.EA_Singers.$el.offsetTop);
+      this.getThemeTopYs.push(this.$refs.SK_Singers.$el.offsetTop);
+      this.getThemeTopYs.push(this.$refs.JP_Singers.$el.offsetTop);
+      // console.log(this.$refs.C_Singers.$el.offsetTop);
+      // console.log(this.$refs.EA_Singers.$el.offsetTop);
+      // console.log(this.$refs.SK_Singers.$el.offsetTop);
+      // console.log(this.$refs.JP_Singers.$el.offsetTop);
+      this.$store.commit("setThemeTopYs", this.getThemeTopYs);
+      // clearTimeout(timer);
+      // }, 1000);
     });
 
     this.$nextTick(() => {
       this.$bus.$on("scroll", position => {
         // console.log(-position.y);
         // console.log(this.getThemeTopYs);
-        if (this.$refs.C_Singers.$el.offsetTop !== this.getThemeTopYs[1]) {
+        // console.log(this.$refs.C_Singers);
+
+        if (
+          this.$refs.C_Singers &&
+          this.$refs.C_Singers.$el.offsetTop !== this.getThemeTopYs[1]
+        ) {
           this.getThemeTopYs = [];
           this.getThemeTopYs[0] = 0;
           this.getThemeTopYs.push(this.$refs.C_Singers.$el.offsetTop);

@@ -40,7 +40,9 @@ export default {
     return {
       // isPlay:
       currentValue: 0,
-      flag: false
+      flag: false,
+      ids: [],
+      index: 0
     };
   },
   mixins: [unablePlayMixin],
@@ -88,6 +90,16 @@ export default {
       let audio = this.$refs.audio;
       audio.currentTime = audio.duration * this.currentValue;
       this.flag = false;
+      if (this.ids && this.index < this.ids.length - 1) {
+        this.index++;
+        let timer = setTimeout(() => {
+          this.$bus.$emit("musicPlay", this.ids[this.index], true);
+          this.timer = null;
+        }, 6000);
+      } else {
+        this.ids = [];
+        this.index = 0;
+      }
     }
   },
   computed: {
@@ -99,7 +111,11 @@ export default {
     // console.log(1);
   },
   mounted() {
-    this.$bus.$on("musicPlay", id => {
+    this.$bus.$on("musicPlay", (id, isSaveIds) => {
+      if (!isSaveIds) {
+        this.ids = [];
+        this.index = 0;
+      }
       let currentSong = {};
       this.$axios.all([getSongDetail(id), getSongUrl(id)]).then(
         this.$axios.spread((res1, res2) => {
@@ -121,6 +137,11 @@ export default {
     });
     this.$bus.$on("noCopyright", () => {
       console.log("无版权");
+    });
+    this.$bus.$on("playAll", ids => {
+      // console.log(ids);
+      this.ids = ids;
+      this.$bus.$emit("musicPlay", ids[0], true);
     });
   }
 };

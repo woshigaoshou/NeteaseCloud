@@ -46,6 +46,7 @@ import Back from "@/components/content/Back";
 import { backColorMixin } from "@/common/mixin";
 
 import { getBanner, getRecommendResource } from "@/network/home";
+import { throttle } from "@/common/utils";
 
 export default {
   name: "Home",
@@ -91,8 +92,16 @@ export default {
       });
     }
     this.$bus.$on("backClick", index => {
-      // console.log(this.$refs.scroll);
-      this.$refs.scroll.scrollTo(0, -this.$store.state.ThemeTopYs[index]);
+      let that = this;
+      throttle(
+        function() {
+          // console.log(this.$refs.scroll);
+          this.$refs.scroll &&
+            this.$refs.scroll.scrollTo(0, -this.$store.state.ThemeTopYs[index]);
+        },
+        100,
+        that
+      )();
     });
     this.isRecommendActive =
       this.$route.path === "/Home/Recommend" ? true : false;
@@ -138,9 +147,12 @@ export default {
 .RecommendActive {
   height: 36vh !important;
 }
+/* 解决手机浏览器底部工具栏问题 8vh*/
+
 .homeScroll {
   /* position: absolute; */
   height: calc(100vh - 20vh);
+  /* padding-bottom: 8vh; */
   overflow: hidden;
   /* background-color: #fff; */
   /* z-index: 999; */

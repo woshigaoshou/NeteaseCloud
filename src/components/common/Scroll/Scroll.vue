@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" ref="wrapper">
-    <div class="content">
+    <div class="commonContent">
       <slot></slot>
     </div>
   </div>
@@ -79,4 +79,7 @@ export default {
 };
 </script>
 <style>
+.commonContent {
+  padding-bottom: 8vh;
+}
 </style>

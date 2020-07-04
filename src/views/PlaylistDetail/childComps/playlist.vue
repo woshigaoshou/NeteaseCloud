@@ -2,7 +2,7 @@
   <div class="playlist">
     <TopBar>
       <div slot="left">
-        <span class="icon-play-circle-o"></span>
+        <span class="icon-play-circle-o" @click="playAll"></span>
       </div>
       <div slot="center" class="text">
         <p>播放全部</p>
@@ -25,6 +25,11 @@ export default {
     trackCount: {
       type: Number,
       default: 0
+    }
+  },
+  methods: {
+    playAll() {
+      this.$emit("playAll");
     }
   }
 };
@@ -58,9 +63,9 @@ p {
   margin-left: 1.2vw;
 }
 .icon-play-circle-o {
-  display: flex;
   align-items: center;
   justify-content: center;
   font-size: 5.2vw;
+  padding: 1vw 2vw;
 }
 </style>

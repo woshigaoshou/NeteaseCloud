@@ -1,10 +1,26 @@
 export function debounce(func, delay) {
-  let timer = null;
+  var timer = null;
   return function (...arg) {
-    if (timer) clearTimeout(timer);
+    if (timer) {
+      clearTimeout(timer);
+    }
     timer = setTimeout(() => {
       func.apply(this, ...arg);
     }, delay)
   }
 
+}
+
+export function throttle(func, delay, context) {
+  let timeout;
+  return function () {
+    let args = arguments;
+    if (!timeout) {
+      timeout = setTimeout(() => {
+        timeout = null;
+        func.apply(context, args);
+      }, delay)
+    }
+
+  }
 }
