@@ -17,8 +17,7 @@ export default {
   name: "RecommendMVItem",
   data() {
     return {
-      flag: true,
-      test: 0
+      flag: true
     };
   },
   props: {
