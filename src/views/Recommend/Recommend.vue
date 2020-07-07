@@ -20,12 +20,14 @@
             :key="index"
             :MvItem="item"
             class="mvItem"
+            @mvClick="mvClick"
+            :mvUrl="mvUrls[index]"
           ></RecommendMVItem>
         </div>
       </div>
       <!-- </scroll> -->
     </RecommendResources>
-    <RecommendResources text="电台推荐">
+    <RecommendResources text="电台推荐（暂不可用）">
       <RecommendResourceItem
         v-for="(item,index) in RecommendDjprogram"
         :key="index"
@@ -45,6 +47,7 @@ import BScroll from "better-scroll";
 // import Scroll from "@/components/common/Scroll/Scroll";
 
 import { getHomeData } from "@/network/home";
+import { getMvData } from "@/network/recommend";
 import { ResourcesItemClickMixin, musicPlayMixin } from "@/common/mixin";
 
 import {
@@ -71,7 +74,8 @@ export default {
       RecommendSongs: [],
       RecommendMV: [],
       scroll: {},
-      RecommendDjprogram: []
+      RecommendDjprogram: [],
+      mvUrls: []
     };
   },
   mixins: [ResourcesItemClickMixin, musicPlayMixin],
@@ -79,7 +83,7 @@ export default {
     //获取数据
     getRecommendResource() {
       getRecommendResource().then(res => {
-        console.log(res);
+        // console.log(res);
         this.RecommendResource = res.recommend;
         let length = this.RecommendResource.length;
         this.RecommendResource.splice(3, length - 3); //只展示3个数据
@@ -87,7 +91,7 @@ export default {
     },
     getRecommendSongs() {
       getRecommendSongs().then(res => {
-        console.log(res);
+        // console.log(res);
         res.data.dailySongs.forEach(item => {
           let tmp = {};
           tmp.blurPicUrl = item.al.picUrl;
@@ -108,6 +112,21 @@ export default {
         this.RecommendMV = res.result;
         let width = this.RecommendMV.length * 100;
         this.$refs.content.style.width = width + "vw";
+        this.$axios
+          .all([
+            getMvData(this.RecommendMV[0].id),
+            getMvData(this.RecommendMV[1].id),
+            getMvData(this.RecommendMV[2].id),
+            getMvData(this.RecommendMV[3].id)
+          ])
+          .then(
+            this.$axios.spread((res1, res2, res3, res4) => {
+              this.mvUrls.push(res1.data.url);
+              this.mvUrls.push(res2.data.url);
+              this.mvUrls.push(res3.data.url);
+              this.mvUrls.push(res4.data.url);
+            })
+          );
       });
     },
     getRecommendDjprogram() {
@@ -115,6 +134,16 @@ export default {
         // console.log(res);
         this.RecommendDjprogram = res.result;
       });
+    },
+    getMvData(id) {
+      getMvData(id).then(res => {
+        console.log(res);
+      });
+    },
+
+    //事件方法
+    mvClick(id) {
+      this.getMvData(id);
     }
   },
 

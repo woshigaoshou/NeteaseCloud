@@ -1,5 +1,5 @@
 <template>
-  <div class="playlistItem" @click="musicPlay">
+  <div class="playlistItem" @click.stop="musicPlay">
     <div class="index">{{ index }}</div>
     <div class="content">
       <div class="textTop">{{ songsItem.name }}</div>
@@ -14,7 +14,7 @@
 
 <script>
 import { checkMusic } from "@/network/home";
-import { unablePlayMixin } from "@/common/mixin";
+import { unablePlayMixin, playAllMixin } from "@/common/mixin";
 
 export default {
   name: "playlistItem",
@@ -24,16 +24,18 @@ export default {
       ar: {}
     };
   },
-  mixins: [unablePlayMixin],
+  mixins: [unablePlayMixin, playAllMixin],
   methods: {
     musicPlay() {
       // console.log(this.index);
       // console.log(this.songsItem);
       checkMusic(this.songsItem.id)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.success === true) {
             this.$emit("musicPlay", this.songsItem.id);
+            this.$emit("savePlaylist_ids");
+            // this.$store.commit("changeContinuePlay", true);
           } else {
             this.$emit("noCopyright");
           }

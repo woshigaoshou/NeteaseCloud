@@ -12,6 +12,7 @@ const Recommend = () => import('@/views/Recommend/Recommend');
 const PlaylistDetail = () => import('@/views/PlaylistDetail/PlaylistDetail');
 const SingerPlaylist = () => import('@/views/SingerPlaylist/SingerPlaylist');
 const RecentPlay = () => import('@/views/RecentPlay/RecentPlay');
+const MusicDetail = () => import('@/views/MusicDetail/MusicDetail');
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,10 @@ const routes = [
   {
     path: '/recentPlay',
     component: RecentPlay
+  },
+  {
+    path: '/musicDetail',
+    component: MusicDetail
   }
 ]
 

@@ -1,8 +1,9 @@
 <template>
-  <div class="mvItem">
+  <div class="mvItem" @click.stop="mvClick">
     <div class="pic">
       <span class="icon-play">{{ MvItem.playCount | ShowPlaycount }}</span>
       <img :src="MvItem.picUrl" />
+      <!-- <video :src="mvUrl" class="vdo" controls="controls"></video> -->
     </div>
     <div class="text">{{ MvItem.copywriter }}</div>
     <span class="art">{{ MvItem.name }} —— {{ MvItem.artistName }}</span>
@@ -10,19 +11,40 @@
 </template>
 
 <script>
-import { playCountFilter } from "../../../common/mixin.js";
+import { playCountFilter } from "@/common/mixin.js";
 
 export default {
   name: "RecommendMVItem",
+  data() {
+    return {
+      flag: true
+    };
+  },
   props: {
     MvItem: {
       type: Object,
       default() {
         return {};
       }
+    },
+    mvUrl: {
+      type: String,
+      default: ""
     }
   },
-  mixins: [playCountFilter]
+  mixins: [playCountFilter],
+  methods: {
+    mvClick() {
+      if (this.flag) {
+        this.flag = false;
+        this.$emit("mvClick", this.MvItem.id);
+        let timer = setTimeout(() => {
+          this.flag = true;
+          clearTimeout(timer);
+        }, 1000);
+      }
+    }
+  }
 };
 </script>
 <style scoped>
@@ -46,8 +68,15 @@ export default {
 .pic img {
   width: 100%;
   height: 100%;
-
   /* flex: 1; */
+}
+.vdo {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
 }
 .text,
 .art {

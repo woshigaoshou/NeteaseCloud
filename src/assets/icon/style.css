@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?lzpo25');
-  src:  url('fonts/icomoon.eot?lzpo25#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?lzpo25') format('truetype'),
-    url('fonts/icomoon.woff?lzpo25') format('woff'),
-    url('fonts/icomoon.svg?lzpo25#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?6rtadq');
+  src:  url('fonts/icomoon.eot?6rtadq#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?6rtadq') format('truetype'),
+    url('fonts/icomoon.woff?6rtadq') format('woff'),
+    url('fonts/icomoon.svg?6rtadq#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -46,6 +46,12 @@
 .icon-play-circle:before {
   content: "\e916";
 }
+.icon-skip-back:before {
+  content: "\e918";
+}
+.icon-skip-forward:before {
+  content: "\e919";
+}
 .icon-envelope:before {
   content: "\e905";
 }
@@ -79,6 +85,9 @@
 .icon-t-shirt:before {
   content: "\e90e";
 }
+.icon-cw:before {
+  content: "\e91a";
+}
 .icon-game-controller:before {
   content: "\e909";
 }
@@ -87,6 +96,9 @@
 }
 .icon-radio:before {
   content: "\e90a";
+}
+.icon-retweet:before {
+  content: "\e91b";
 }
 .icon-cart:before {
   content: "\e907";
@@ -123,6 +135,9 @@
 }
 .icon-shield:before {
   content: "\e9b4";
+}
+.icon-shuffle:before {
+  content: "\ea30";
 }
 .icon-file-text2:before {
   content: "\e926";

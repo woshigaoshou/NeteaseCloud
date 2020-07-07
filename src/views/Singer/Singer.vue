@@ -13,7 +13,7 @@ import singerItem from "./childComps/singerItem";
 
 import { gethotSinger, getRegionSinger } from "@/network/singer";
 
-import { ResourcesItemClickMixin } from "@/common/mixin";
+import { ResourcesItemClickMixin, singerClickMixin } from "@/common/mixin";
 
 export default {
   name: "Singer",
@@ -32,7 +32,7 @@ export default {
       changeIndex: 0
     };
   },
-  mixins: [ResourcesItemClickMixin],
+  mixins: [ResourcesItemClickMixin, singerClickMixin],
   methods: {
     gethotSinger(offset, limit) {
       gethotSinger(offset, limit).then(res => {
@@ -63,12 +63,9 @@ export default {
             }
           )
         );
-    },
+    }
 
     //事件方法
-    singerClick(id) {
-      this.$router.push({ path: "/singerPlaylist", query: { id } });
-    }
   },
   created() {
     if (this.$store.state.userId) {

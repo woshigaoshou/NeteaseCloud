@@ -19,6 +19,7 @@
             :index="index+1"
             @musicPlay="musicPlay"
             @noCopyright="noCopyright"
+            @savePlaylist_ids="savePlaylist_ids"
           ></playlistItem>
         </playlist>
       </div>
@@ -76,16 +77,13 @@ export default {
   },
   methods: {
     getRecord(id, type) {
-      getRecord(id, type)
-        .then(res => {
-          console.log(res);
-          res.allData.forEach(item => {
-            this.songs.push(item.song);
-          });
-        })
-        .then(res => {
-          console.log(this.songs);
+      getRecord(id, type).then(res => {
+        console.log(res);
+        res.allData.forEach(item => {
+          this.songs.push(item.song);
         });
+        // this.savePlaylist_ids();
+      });
     }
   },
   mixins: [returnHistoryMixin, musicPlayMixin, playAllMixin],

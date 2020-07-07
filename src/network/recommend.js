@@ -31,3 +31,12 @@ export function getRecommendDjprogram() {
     url: '/personalized/djprogram'
   })
 }
+
+export function getMvData(id) {
+  return request({
+    url: '/mv/url',
+    params: {
+      id
+    }
+  })
+}

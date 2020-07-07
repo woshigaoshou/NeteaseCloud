@@ -20,6 +20,7 @@
             :index="index+1"
             @musicPlay="musicPlay"
             @noCopyright="noCopyright"
+            @savePlaylist_ids="savePlaylist_ids"
           ></playlistItem>
         </playlist>
       </div>
@@ -81,6 +82,7 @@ export default {
         console.log(res);
         this.songs = res.hotSongs;
         this.playlist = res.artist;
+        // this.savePlaylist_ids();
       });
     }
   },

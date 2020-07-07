@@ -32,6 +32,7 @@ export default {
       checkMusic(this.SongsItem.id).then(res => {
         if (res.success === true) {
           this.$bus.$emit("musicPlay", this.SongsItem.id);
+          // this.$store.commit("changeContinuePlay", false);
         } else {
           this.$emit("noCopyright");
         }

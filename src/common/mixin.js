@@ -40,7 +40,8 @@ export const identifyMixin = {
 export const returnHistoryMixin = {
   methods: {
     returnHistory() {
-      history.back(1);
+      history.go(-this.$store.state.currentPlaylist.count);
+      this.$store.commit("changeCount", 1);
     }
   }
 }
@@ -141,11 +142,139 @@ export const unablePlayMixin = {
 export const playAllMixin = {
   methods: {
     playAll() {
+      this.savePlaylist_ids();
+      this.$bus.$emit('playAll');
+    },
+    savePlaylist_ids() {
       let musicId = [];
+      console.log(this.songs);
+
       this.songs.forEach(item => {
         musicId.push(item.id);
       })
-      this.$bus.$emit('playAll', musicId);
+      sessionStorage.setItem("playlist_ids", JSON.stringify(musicId));
+      this.$store.commit('changeIds');
+
+    }
+  }
+}
+
+export const musicPlayMethodsMixin = {
+  data() {
+    return {
+      flag: false,
+      currentValue: 0
+    }
+  },
+  methods: {
+    changePlay() {
+      let this_audio = this.$store.state.this_audio;   //musicDetail的this.$refs取不到audio标签，所以取bottomAudio组件的this
+
+      this.$store.commit("changePlay");
+      let audio = this_audio.$refs.audio;
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    },
+    updateProgress() {
+      let this_audio = this.$store.state.this_audio;   //musicDetail的this.$refs取不到audio标签，所以取bottomAudio组件的this
+      let this_musicDetail;
+      if (this.$store.state.this_musicDetail) {
+        this_musicDetail = this.$store.state.this_musicDetail;
+      }
+      let audio = this_audio.$refs.audio;
+      // console.log(audio);
+
+      // console.log(this.$refs.audio.currentTime);
+      // console.log(this.$refs.audio.duration);
+      // console.log(audio.currentTime);
+
+      if (!this.flag && (!this_musicDetail || !this_musicDetail.flag)) {
+
+        this_audio.currentValue = audio.currentTime / audio.duration;
+        if (this.$store.state.this_musicDetail) {
+          this.$store.state.this_musicDetail.currentValue = audio.currentTime / audio.duration;
+        }
+      }
+    },
+    async endPlay() {
+      console.log('调用了endPlay');
+
+      let this_audio = this.$store.state.this_audio;
+      let this_musicDetail;
+      if (this.$store.state.this_musicDetail) {
+        this_musicDetail = this.$store.state.this_musicDetail;
+      }
+
+      this_musicDetail.currentValue = 0;
+      this.currentValue = 0;
+      this.$store.state.currentMusic.isPlay = false;
+
+      let type = this.$store.state.currentPlaylist.type;
+      let index = this.$store.state.currentPlaylist.index;
+      let ids = this.$store.state.currentPlaylist.ids;
+      if (type === 0) {
+        if (index >= ids.length - 1) {
+          this.$store.commit("changeContinuePlay", false);
+          await this.$store.dispatch("changeMusic", { id: ids[0], that: this_musicDetail });
+          this.nextPlay(ids, 0, this_musicDetail);
+        }
+        else {
+          this.$store.commit("changeContinuePlay", false);
+          await this.$store.dispatch("changeMusic", { id: ids[index + 1], that: this_musicDetail });
+          this.nextPlay(ids, index + 1, this_musicDetail);
+        }
+      }
+      else if (type === 1) {
+        this_audio.$store.commit('clearUrl');
+        this.$bus.$emit("musicPlay", ids[index]);
+      }
+      else if (type === 2) {
+        let index = parseInt(Math.random() * 10000 % ids.length);
+        this.$store.commit("changeContinuePlay", false);
+        await this.$store.dispatch("changeMusic", { id: ids[index], that: this_musicDetail });
+        this.nextPlay(ids, index, this_musicDetail);
+      }
+    },
+    nextPlay(ids, next_index, this_musicDetail) {
+      console.log(this.$store.state.currentPlaylist.continuePlay);
+
+      if (this.$store.state.currentPlaylist.continuePlay && this.$route.path === '/musicDetail') {
+        let id = ids[next_index];
+        this_musicDetail.$router.push({ path: "/musicDetail", query: { id } });
+        this_musicDetail.getSongDetail(id);
+        this.$store.commit("changeCount");
+      }
+    },
+  },
+  computed: {
+    currentProgress() {
+      return (this.currentValue * 100) + "%";
+    },
+    dotCurrentProgress() {
+      return (this.currentValue * 100 - 1.5) + "%";    //比实际小2% 这样不会直接溢出进度条
+    }
+  }
+}
+
+export const singerClickMixin = {
+  methods: {
+    singerClick(id) {
+      this.$router.push({ path: "/singerPlaylist", query: { id } });
+    }
+  }
+}
+
+export const playTimeFilter = {
+  filters: {
+    showPlayTime(time = 0) {
+      let minute = parseInt(time / 60);
+      let second = parseInt(time % 60);
+      if (minute < 10) minute = '0' + minute;
+      if (second < 10) second = '0' + second;
+      return minute + ':' + second;
     }
   }
 }

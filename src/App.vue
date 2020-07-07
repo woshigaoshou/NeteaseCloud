@@ -2,7 +2,10 @@
   <div id="app">
     <router-view></router-view>
     <tips></tips>
-    <bottomAudio v-show="$store.state.currentMusic.isShow"></bottomAudio>
+    <bottomAudio
+      v-show="$store.state.currentMusic.isShow"
+      :class="{isDetail: $route.path==='/musicDetail'}"
+    ></bottomAudio>
   </div>
 </template>
 
@@ -28,6 +31,10 @@ export default {
   padding: 2.4vh 0 0 2.4vh;
   font-size: 8vw;
   color: #fff;
+}
+.isDetail {
+  opacity: 0;
+  height: 0 !important;
 }
 /* .mvScroll .content {
   display: flex;

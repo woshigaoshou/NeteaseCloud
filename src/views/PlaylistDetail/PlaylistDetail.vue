@@ -21,6 +21,7 @@
             :index="index+1"
             @musicPlay="musicPlay"
             @noCopyright="noCopyright"
+            @savePlaylist_ids="savePlaylist_ids"
           ></playlistItem>
         </playlist>
       </div>
@@ -84,7 +85,7 @@ export default {
     async getPlaylistDetail(id, cookie) {
       let ids = [];
       await getPlaylistDetail(id, cookie).then((res, reject) => {
-        console.log(res);
+        // console.log(res);
         this.playlist = res.playlist;
         this.playlist.trackIds.forEach((item, index) => {
           ids.push(item.id);
@@ -103,6 +104,7 @@ export default {
       getSongDetail(this.trackIds).then(res => {
         // console.log(res);
         this.songs = res.songs;
+        // this.savePlaylist_ids();
         // console.log(this.songs);
       });
       getSongUrl(this.trackIds).then(res => {
@@ -115,7 +117,6 @@ export default {
   created() {
     // this.getPlaylistDetail(this.$route.query.id, this.$store.state.cookie);
     this.getSongDetail();
-
     this.$nextTick(() => {
       // this.offsetY =
       //   this.$refs.playlist2.$el.offsetTop -

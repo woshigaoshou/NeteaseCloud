@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from "./mutations"
+import actions from "./actions"
 
 Vue.use(Vuex)
 
@@ -13,23 +14,34 @@ const state = {
   cookie: sessionStorage.getItem('cookie') ? sessionStorage.getItem('cookie') : '',
   userId: sessionStorage.getItem('userId') ? sessionStorage.getItem('userId') : '',
   ThemeTopYs: [],
-  id: '',
+  // id: '',
   currentMusic: {
     url: "",
     al: { name: "", picUrl: "" },
     ar: [{ name: "" }],
     isPlay: false,
     isShow: false,
-    name: ""
+    name: "",
+    id: 0
   },
-  tipsShow: false
+  tipsShow: false,
+  this_audio: {},
+  this_musicDetail: null,
+  currentPlaylist: {
+    ids: sessionStorage.getItem('playlist_ids') ? JSON.parse(sessionStorage.getItem('playlist_ids')) : [],
+    type: 0,
+    index: 0,
+    count: 1,
+    continuePlay: false,
+    isPreMusic: false,
+    isNextMusic: false
+  }
 }
 
 export default new Vuex.Store({
   state,
   mutations,
-  actions: {
-  },
+  actions,
   modules: {
   }
 })

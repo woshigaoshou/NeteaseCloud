@@ -1,5 +1,5 @@
 <template>
-  <div class="audio" ref="bottomAudio" @touchmove="move">
+  <div class="audio" ref="bottomAudio" @touchmove="move" @click="entryDetail">
     <div class="picUrl">
       <img :src="$store.state.currentMusic.al.picUrl" alt />
     </div>
@@ -10,7 +10,7 @@
     </div>
     <div
       :class="{'icon-play-circle': !$store.state.currentMusic.isPlay,'icon-pause-circle': $store.state.currentMusic.isPlay}"
-      @click="changePlay"
+      @click.stop="changePlay"
     ></div>
     <audio
       :src="$store.state.currentMusic.url"
@@ -21,10 +21,18 @@
     >
       <source type="audio/mpeg" />
     </audio>
-    <div class="totalProgress" @click="changeProgress" @touchstart="start" @touchend="end">
-      <div class="progress" :style="{'width': currentProgress}"></div>
+    <div class="audioProgress">
+      <div
+        class="totalProgress"
+        @click.stop="changeProgress"
+        @touchstart.stop="start"
+        @touchend.stop="end"
+        ref="totalProgress"
+      >
+        <div class="progress" :style="{'width': currentProgress}"></div>
+      </div>
+      <div class="dot" :style="{'left': dotCurrentProgress}"></div>
     </div>
-    <div class="dot" :style="{'left': currentProgress}"></div>
   </div>
 </template>
 
@@ -32,116 +40,71 @@
 import { getPlaylistDetail, getSongDetail } from "@/network/playlistDetail";
 import { getSongUrl } from "@/network/home";
 
-import { unablePlayMixin } from "@/common/mixin";
+import {
+  unablePlayMixin,
+  musicPlayMethodsMixin,
+  playAllMixin
+} from "@/common/mixin";
 
 export default {
   name: "bottomAudio",
   data() {
-    return {
-      // isPlay:
-      currentValue: 0,
-      flag: false,
-      ids: [],
-      index: 0
-    };
+    return {};
   },
-  mixins: [unablePlayMixin],
+  mixins: [unablePlayMixin, musicPlayMethodsMixin, playAllMixin],
   methods: {
-    changePlay() {
-      this.$store.commit("changePlay");
-      let audio = this.$refs.audio;
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    },
-    updateProgress() {
-      let audio = this.$refs.audio;
-      // console.log(this.$refs.audio.currentTime);
-      // console.log(this.$refs.audio.duration);
-      if (!this.flag) {
-        this.currentValue = audio.currentTime / audio.duration;
-      }
-    },
-    endPlay() {
-      this.currentValue = 0;
-      this.$store.state.currentMusic.isPlay = false;
+    entryDetail() {
+      let id = this.$store.state.currentMusic.id;
+      // console.log(this.$store.state);
+
+      this.$router.push({ path: "/musicDetail", query: { id } });
     },
     changeProgress(e) {
-      let audio = this.$refs.audio;
-      this.currentValue = e.offsetX / this.$el.clientWidth;
+      let this_audio = this.$store.state.this_audio; //musicDetail的this.$refs取不到audio标签，所以取bottomAudio组件的this
+      let audio = this_audio.$refs.audio;
+      // console.log(e);
+      // console.log(this.$refs.totalProgress.offsetWidth);
+      this.currentValue = e.offsetX / this.$refs.totalProgress.offsetWidth;
+      // console.log(this.currentValue);
       audio.currentTime = audio.duration * this.currentValue;
       // e.path[7].view.innerWidth
     },
     start(e) {
       this.currentValue = e.changedTouches[0].pageX / this.$el.clientWidth;
       this.flag = true;
-      // console.log(e);
+      console.log(e);
     },
     move(e) {
       if (this.flag) {
         this.currentValue = e.changedTouches[0].pageX / this.$el.clientWidth;
       }
-
       // console.log(e);
     },
     end() {
       let audio = this.$refs.audio;
       audio.currentTime = audio.duration * this.currentValue;
       this.flag = false;
-      if (this.ids && this.index < this.ids.length - 1) {
-        this.index++;
-        let timer = setTimeout(() => {
-          this.$bus.$emit("musicPlay", this.ids[this.index], true);
-          this.timer = null;
-        }, 6000);
-      } else {
-        this.ids = [];
-        this.index = 0;
-      }
-    }
-  },
-  computed: {
-    currentProgress() {
-      return this.currentValue * 100 + "%";
     }
   },
   created() {
     // console.log(1);
+    this.$store.commit("saveAudioThis", this);
   },
   mounted() {
-    this.$bus.$on("musicPlay", (id, isSaveIds) => {
-      if (!isSaveIds) {
-        this.ids = [];
-        this.index = 0;
-      }
-      let currentSong = {};
-      this.$axios.all([getSongDetail(id), getSongUrl(id)]).then(
-        this.$axios.spread((res1, res2) => {
-          // console.log(res1);
-          // console.log(res2);
-          if (res2.data[0].code === 200) {
-            currentSong.ar = res1.songs[0].ar;
-            currentSong.name = res1.songs[0].name;
-            currentSong.al = res1.songs[0].al;
-            currentSong.url = res2.data[0].url;
-            currentSong.isPlay = true;
-            currentSong.isShow = true;
-            this.$store.commit("changeMusic", currentSong);
-          } else {
-            this.unablePlay();
-          }
-        })
-      );
+    this.$bus.$on("musicPlay", id => {
+      // console.log(!this.$store.dispatch("changeMusic", id));
+
+      this.$store.dispatch("changeMusic", {
+        id,
+        that: this.$store.state.this_musicDetail
+      });
     });
     this.$bus.$on("noCopyright", () => {
-      console.log("无版权");
+      // console.log("无版权");
     });
-    this.$bus.$on("playAll", ids => {
-      // console.log(ids);
-      this.ids = ids;
-      this.$bus.$emit("musicPlay", ids[0], true);
+    this.$bus.$on("playAll", () => {
+      // this.$store.commit("changeContinuePlay", true);
+      this.$bus.$emit("musicPlay", this.$store.state.currentPlaylist.ids[0]);
     });
   }
 };
@@ -153,7 +116,7 @@ export default {
   bottom: 0;
   height: 8vh;
   width: 100%;
-  z-index: 9999999;
+  z-index: 9999;
   border-top: 1px solid #eee;
   background-color: #fff;
 }
@@ -194,23 +157,30 @@ export default {
   font-size: 8vw;
   color: rgb(99, 97, 97);
 }
+.audioProgress {
+  position: absolute;
+  top: -0.5vh;
+  height: 0.5vh;
+  width: 100vw;
+}
 .totalProgress {
   position: absolute;
-  top: 0;
-  height: 2.2vw;
+  top: -0.3vh;
+  padding: 0.5vh 0;
+  height: 0.6vw;
   width: 100%;
+  z-index: 999999;
 }
 .progress {
   position: absolute;
-  top: 0;
+  /* top: -0.3vh; */
   /* width: 100%; */
   height: 0.6vw;
   background-color: red;
 }
 .dot {
   position: absolute;
-  top: -0.7vw;
-  /* left: 0; */
+  top: -0.5vw;
   width: 2vw;
   height: 2vw;
   border-radius: 50%;
