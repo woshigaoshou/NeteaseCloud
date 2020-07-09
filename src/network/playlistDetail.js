@@ -5,7 +5,7 @@ export function getPlaylistDetail(id, cookie) {
     url: "/playlist/detail",
     params: {
       id,
-      cookie
+      // cookie
     }
   })
 }

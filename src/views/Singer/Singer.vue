@@ -68,10 +68,10 @@ export default {
     //事件方法
   },
   created() {
-    if (this.$store.state.userId) {
-      this.gethotSinger(0, 20);
-      this.getRegionSinger();
-    }
+    // if (this.$store.state.userId) {
+    this.gethotSinger(0, 20);
+    this.getRegionSinger();
+    // }
   },
   mounted() {
     this.$nextTick(() => {

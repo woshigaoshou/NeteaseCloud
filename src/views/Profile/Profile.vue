@@ -1,19 +1,22 @@
 <template>
-  <div class="Profile">
-    <ProfileResources
-      :playlist="playlist"
-      :allData="allData"
-      :paidAlbums="paidAlbums"
-      @ResourcesItemClick="ResourcesItemClick"
-    ></ProfileResources>
-    <ProfileMusic :ResourcesName="ResourcesName" @resourcesClick="resourcesClick">
-      <ProfileMusicItem
-        v-for="(item,index) in showResources"
-        :key="index"
-        :showResourcesItem="item"
+  <div>
+    <div class="Profile" v-show="this.$store.state.userId">
+      <ProfileResources
+        :playlist="playlist"
+        :allData="allData"
+        :paidAlbums="paidAlbums"
         @ResourcesItemClick="ResourcesItemClick"
-      ></ProfileMusicItem>
-    </ProfileMusic>
+      ></ProfileResources>
+      <ProfileMusic :ResourcesName="ResourcesName" @resourcesClick="resourcesClick">
+        <ProfileMusicItem
+          v-for="(item,index) in showResources"
+          :key="index"
+          :showResourcesItem="item"
+          @ResourcesItemClick="ResourcesItemClick"
+        ></ProfileMusicItem>
+      </ProfileMusic>
+    </div>
+    <div v-show="!this.$store.state.userId" class="info">登录后可显示更多功能</div>
   </div>
 </template>
 
@@ -109,4 +112,10 @@ export default {
 };
 </script>
 <style scoped>
+.info {
+  position: absolute;
+  bottom: 50vh;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
 </style>

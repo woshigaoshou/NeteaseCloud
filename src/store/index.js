@@ -35,7 +35,8 @@ const state = {
     continuePlay: false,
     isPreMusic: false,
     isNextMusic: false
-  }
+  },
+  isShowList: false
 }
 
 export default new Vuex.Store({

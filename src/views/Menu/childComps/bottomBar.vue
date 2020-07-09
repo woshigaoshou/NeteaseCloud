@@ -1,5 +1,5 @@
 <template>
-  <div class="bottomBar">
+  <div class="bottomBar" :class="{'isPlay_bottomBar': $store.state.currentMusic.isShow}">
     <slot></slot>
   </div>
 </template>
@@ -23,4 +23,7 @@ export default {
   z-index: 9999;
   background-color: #fff;
 }
+/* .isPlay_bottomBar {
+  bottom: 8vh;
+} */
 </style>

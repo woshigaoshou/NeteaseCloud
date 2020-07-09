@@ -13,7 +13,7 @@ export function getPersonal_fm(cookie) {
   return request({
     url: "/personal_fm",
     params: {
-      cookie
+      // cookie
     }
   })
 }
@@ -32,7 +32,7 @@ export function getDigitalAlbum(cookie, limit) {
   return request({
     url: "/digitalAlbum/purchased",
     params: {
-      cookie,
+      // cookie,
       limit
     }
   })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RecommendResources text="懂你的精选歌单">
+    <RecommendResources text="懂你的精选歌单" v-show="this.$store.state.userId">
       <RecommendResourceItem
         v-for="(item,index) in RecommendResource"
         :key="index"
@@ -8,10 +8,10 @@
         @ResourcesItemClick="ResourcesItemClick"
       ></RecommendResourceItem>
     </RecommendResources>
-    <RecommendResources text="打开你的音乐假日">
+    <RecommendResources text="打开你的音乐假日" v-show="this.$store.state.userId">
       <RecommendSongsItem v-for="(item,index) in RecommendSongs" :key="index" :SongsItem="item"></RecommendSongsItem>
     </RecommendResources>
-    <RecommendResources text="MV精选（可左右滑动）" class="MV">
+    <RecommendResources text="MV精选（可左右滑动，暂无法使用）" class="MV">
       <div ref="box" class="box">
         <div class="content" ref="content">
           <!-- <scroll class="mvScroll" :scrollX="true"> -->
@@ -151,9 +151,9 @@ export default {
     if (this.$store.state.userId) {
       this.getRecommendResource();
       this.getRecommendSongs();
-      this.getRecommendMV();
-      this.getRecommendDjprogram();
     }
+    this.getRecommendMV();
+    this.getRecommendDjprogram();
   },
   mounted() {
     this.$nextTick(() => {

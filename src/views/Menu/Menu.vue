@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="menu" :class="{showMenu:isShow}">
-      <Scroll class="scroll" :probeType="2" ref="scroll">
+      <Scroll class="scroll" :probeType="2" ref="scroll" >
         <UserMessage></UserMessage>
         <MenuItem v-for="(item,index) in MenuItem" :key="index" class="menuItem">
           <div slot="item-icon" :class="item.MenuIcon"></div>
@@ -197,6 +197,7 @@ export default {
 }
 .scroll {
   /* margin-bottom: 8vh; */
+  overflow:hidden;
   height: calc(100vh - 42px);
 }
 .icon-search2 {
@@ -206,4 +207,7 @@ export default {
 .logout {
   z-index: 99999;
 }
+/* .isPlay_menuScroll {
+  height: calc(100vh - 42px - 8vh);
+} */
 </style>

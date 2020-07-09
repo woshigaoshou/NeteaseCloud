@@ -207,7 +207,7 @@ p {
 
 .playlistScroll {
   position: relative;
-  height: calc(90.5vh);
+  height: 90.5vh;
   overflow: hidden;
   z-index: 1;
 }

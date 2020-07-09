@@ -73,11 +73,11 @@ export default {
                 alert(res.msg);
               } else {
                 let data = res.profile;
-                window.sessionStorage.setItem("cookie", res.cookie);
+                document.cookie = res.cookie;
                 window.sessionStorage.setItem("avatarUrl", data.avatarUrl);
                 window.sessionStorage.setItem("nickName", data.nickname);
                 window.sessionStorage.setItem("userId", data.userId);
-                data.cookie = sessionStorage.getItem("cookie");
+                // data.cookie = sessionStorage.getItem("cookie");
                 console.log(res);
                 this.$store.commit("getUserInfo", data);
                 this.$router.replace("/home");

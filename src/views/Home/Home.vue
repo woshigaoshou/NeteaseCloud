@@ -22,19 +22,19 @@
         <HomeSwiper class="swiper" :banners="banners" v-show="isRecommendActive"></HomeSwiper>
         <keep-alive exclude="Recommend,PlaylistDetail">
           <!-- <keep-alive> -->
-          <router-view v-show="$store.state.cookie"></router-view>
+          <!-- <router-view v-show="$store.state.cookie"></router-view> -->
+          <router-view></router-view>
         </keep-alive>
       </Scroll>
       <Menu :isShow="showMenu" @menuClick="menuClick" v-show="flag"></Menu>
-      <Back
-        :titles="['热门','华语','欧美','韩国','日本']"
-        v-show="this.$store.state.userId &&  isSingerActive"
-      ></Back>
+      <Back :titles="['热门','华语','欧美','韩国','日本']" v-show="isSingerActive"></Back>
     </div>
   </div>
 </template>
+   
 
 <script>
+//  v-show="this.$store.state.userId &&  isSingerActive"
 import Home from "@/views/Home/Home";
 import NavBar from "@/components/common/NavBar/NavBar";
 import TopBar from "@/components/common/TopBar/TopBar";

@@ -86,9 +86,9 @@ export default {
     }
   },
   created() {
-    if (this.$store.state.userId) {
-      this.getRankData();
-    }
+    // if (this.$store.state.userId) {
+    this.getRankData();
+    // }
   }
 };
 </script>

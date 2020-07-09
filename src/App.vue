@@ -4,20 +4,24 @@
     <tips></tips>
     <bottomAudio
       v-show="$store.state.currentMusic.isShow"
-      :class="{isDetail: $route.path==='/musicDetail'}"
+      :class="{isDetail: $route.path==='/musicDetail' || $route.path==='/login' || $route.path==='/register'}"
     ></bottomAudio>
+    <List v-show="$store.state.isShowList"></List>
+    <!-- <List></List> -->
   </div>
 </template>
 
 <script>
 import bottomAudio from "@/components/content/bottomAudio";
 import tips from "@/components/content/tips";
+import List from "@/components/content/List";
 
 export default {
   name: "app",
   components: {
     bottomAudio,
-    tips
+    tips,
+    List
   }
 };
 </script>

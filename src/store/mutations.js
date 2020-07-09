@@ -73,5 +73,15 @@ export default {
   },
   clearUrl(state) {
     state.currentMusic.url = '';
+  },
+  isShowList(state, value) {
+    state.isShowList = value;
+  },
+  deleteId(state, id) {
+    state.currentPlaylist.ids.forEach((item, index) => {
+      if (item === id) {
+        state.currentPlaylist.ids.splice(index, 1);
+      }
+    })
   }
 }

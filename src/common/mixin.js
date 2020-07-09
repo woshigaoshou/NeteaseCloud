@@ -147,14 +147,13 @@ export const playAllMixin = {
     },
     savePlaylist_ids() {
       let musicId = [];
-      console.log(this.songs);
-
+      // console.log(this.songs);
       this.songs.forEach(item => {
         musicId.push(item.id);
       })
       sessionStorage.setItem("playlist_ids", JSON.stringify(musicId));
       this.$store.commit('changeIds');
-
+      this.$bus.$emit('updateList');
     }
   }
 }

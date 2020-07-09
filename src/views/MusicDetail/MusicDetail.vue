@@ -23,20 +23,24 @@
         <div class="dot" :style="{'left': dotCurrentProgress}"></div>
       </div>
       <div class="btn">
-        <span
+        <span @click="changePlayMode" class="playWay">
+          <img src="@/assets/img/random.svg" v-show="$store.state.currentPlaylist.type === 2" />
+          <img src="@/assets/img/loop.svg" v-show="$store.state.currentPlaylist.type === 1" />
+          <img src="@/assets/img/next.svg" v-show="$store.state.currentPlaylist.type === 0" />
+        </span>
+        <!-- <span
           :class="{
           'icon-shuffle': $store.state.currentPlaylist.type ===2,
           'icon-cw': $store.state.currentPlaylist.type ===1,
           'icon-retweet': $store.state.currentPlaylist.type ===0}"
-          @click="changePlayMode"
-        ></span>
+        ></span>-->
         <span class="icon-skip-back" @click="preMusic"></span>
         <span
           :class="{'icon-play-circle': !$store.state.currentMusic.isPlay,'icon-pause-circle': $store.state.currentMusic.isPlay}"
           @click.stop="changePlay"
         ></span>
         <span class="icon-skip-forward" @click="nextMusic"></span>
-        <span class="icon-menu1"></span>
+        <span class="icon-menu1" @click.stop="showList"></span>
       </div>
     </div>
 
@@ -183,6 +187,9 @@ export default {
     },
     changeProgress(e) {
       // 添加点击事件之后出发touchstart更流畅
+    },
+    showList() {
+      this.$store.commit("isShowList", true);
     }
   },
   created() {
@@ -409,5 +416,17 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.playWay {
+  height: 12vw;
+}
+.playWay img:nth-child(2),
+.playWay img:nth-child(3) {
+  width: 65%;
+  height: 65%;
+}
+.playWay img:nth-child(1) {
+  width: 75%;
+  height: 75%;
 }
 </style>

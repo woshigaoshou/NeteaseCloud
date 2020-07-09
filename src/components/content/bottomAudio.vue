@@ -12,6 +12,9 @@
       :class="{'icon-play-circle': !$store.state.currentMusic.isPlay,'icon-pause-circle': $store.state.currentMusic.isPlay}"
       @click.stop="changePlay"
     ></div>
+    <div class="list" @click.stop="showList">
+      <img src="@/assets/img/list.svg" alt />
+    </div>
     <audio
       :src="$store.state.currentMusic.url"
       autoplay="autoplay"
@@ -48,8 +51,11 @@ import {
 
 export default {
   name: "bottomAudio",
+  components: {},
   data() {
-    return {};
+    return {
+      isShowList: false
+    };
   },
   mixins: [unablePlayMixin, musicPlayMethodsMixin, playAllMixin],
   methods: {
@@ -84,6 +90,9 @@ export default {
       let audio = this.$refs.audio;
       audio.currentTime = audio.duration * this.currentValue;
       this.flag = false;
+    },
+    showList() {
+      this.$store.commit("isShowList", true);
     }
   },
   created() {
@@ -148,7 +157,8 @@ export default {
   text-overflow: ellipsis;
 }
 .icon-play-circle,
-.icon-pause-circle {
+.icon-pause-circle,
+.list {
   position: absolute;
   top: 1.5vh;
   right: 20vw;
@@ -156,6 +166,13 @@ export default {
   height: 4vh;
   font-size: 8vw;
   color: rgb(99, 97, 97);
+}
+.list {
+  right: 7vw;
+}
+.list img {
+  width: 100%;
+  height: 100%;
 }
 .audioProgress {
   position: absolute;
