@@ -114,7 +114,7 @@ export default {
 <style scoped>
 .info {
   position: absolute;
-  bottom: 50vh;
+  /* top: 36vh; */
   left: 50%;
   transform: translate(-50%, 50%);
 }
