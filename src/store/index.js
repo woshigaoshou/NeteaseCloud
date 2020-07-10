@@ -10,7 +10,7 @@ const state = {
   // nickName: 'Gzzz_',    //昵称  data.profile.nickname
   avatarUrl: sessionStorage.getItem('avatarUrl') ? sessionStorage.getItem('avatarUrl') : '',
   nickName: sessionStorage.getItem('nickName') ? sessionStorage.getItem('nickName') : '',
-  loginState: sessionStorage.getItem('cookie') ? true : false,
+  loginState: sessionStorage.getItem('nickName') ? true : false,
   cookie: sessionStorage.getItem('cookie') ? sessionStorage.getItem('cookie') : '',
   userId: sessionStorage.getItem('userId') ? sessionStorage.getItem('userId') : '',
   ThemeTopYs: [],

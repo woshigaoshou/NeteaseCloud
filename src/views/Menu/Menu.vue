@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="menu" :class="{showMenu:isShow}">
-      <Scroll class="scroll" :probeType="2" ref="scroll" >
+      <Scroll class="scroll" :probeType="2" ref="scroll">
         <UserMessage></UserMessage>
         <MenuItem v-for="(item,index) in MenuItem" :key="index" class="menuItem">
           <div slot="item-icon" :class="item.MenuIcon"></div>
@@ -60,6 +60,8 @@ export default {
       window.sessionStorage.removeItem("cookie");
       window.sessionStorage.removeItem("avatarUrl");
       window.sessionStorage.removeItem("nickName");
+      window.sessionStorage.removeItem("userId");
+      document.cookie = "MUSIC_U=";
       this.$router.replace("/home");
       window.location.reload();
     }
@@ -197,7 +199,7 @@ export default {
 }
 .scroll {
   /* margin-bottom: 8vh; */
-  overflow:hidden;
+  overflow: hidden;
   height: calc(100vh - 42px);
 }
 .icon-search2 {

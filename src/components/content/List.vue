@@ -11,7 +11,13 @@
       </div>
       <div ref="box" class="listScroll">
         <div class="content" ref="content">
-          <listItem v-for="(item,index) in songs" :key="index" :song="item" :index="index" @deleteItem="deleteItem"></listItem>
+          <listItem
+            v-for="(item,index) in songs"
+            :key="index"
+            :song="item"
+            :index="index"
+            @deleteItem="deleteItem"
+          ></listItem>
         </div>
       </div>
       <div class="listBottom" @click="showList">关闭</div>
@@ -35,7 +41,7 @@ export default {
       songs: [],
       modeName:
         "顺序播放(" + this.$store.state.currentPlaylist.ids.length + "首)",
-      isShow: true,
+      isShow: true
     };
   },
   methods: {
@@ -66,8 +72,8 @@ export default {
       }
     },
     deleteItem(index) {
-        this.songs.splice(index, 1);
-        this.updataModeName();
+      this.songs.splice(index, 1);
+      this.updataModeName();
     }
   },
   computed: {
@@ -161,7 +167,7 @@ export default {
   display: flex;
   align-items: center;
   height: 6vh;
-  padding: 3vw 0 2vw 4vw;
+  padding: 2vh 0 1vh 4vw;
   z-index: 1;
   background-color: #fff;
 }
@@ -180,7 +186,10 @@ export default {
 }
 .listScroll {
   position: relative;
-  height: 46vh;
+  height: 43vh;
   overflow: hidden;
+}
+.content {
+  padding-bottom: 2vh;
 }
 </style>

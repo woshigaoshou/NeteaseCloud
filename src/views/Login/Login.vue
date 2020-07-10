@@ -56,39 +56,55 @@ export default {
   mixins: [identifyMixin, returnHistoryMixin],
   methods: {
     login() {
-      checkIdentify(this.form.userID, this.form.identify)
-        .then(
-          res => {
-            // console.log(res);
-            return res;
-          },
-          rej => {
-            alert("验证码错误或已经失效！");
-          }
-        )
-        .then(res => {
-          if (res.code === 200) {
-            login(this.form.userID, this.form.userPsw).then(res => {
-              if (res.code === 502) {
-                alert(res.msg);
-              } else {
-                let data = res.profile;
-                document.cookie = res.cookie;
-                window.sessionStorage.setItem("avatarUrl", data.avatarUrl);
-                window.sessionStorage.setItem("nickName", data.nickname);
-                window.sessionStorage.setItem("userId", data.userId);
-                // data.cookie = sessionStorage.getItem("cookie");
-                console.log(res);
-                this.$store.commit("getUserInfo", data);
-                this.$router.replace("/home");
-                let timer = setTimeout(() => {
-                  window.location.reload();
-                }, 300);
-                clearTimeout(timer);
-              }
-            });
-          }
-        });
+      if (this.form.userID === "") {
+        alert("请输入手机号码！");
+      } else {
+        checkIdentify(this.form.userID, this.form.identify)
+          .then(
+            res => {
+              // console.log(res);
+              return res;
+            },
+            rej => {
+              alert("验证码错误或已经失效！");
+            }
+          )
+          .then(res => {
+            if (res.code === 200) {
+              login(this.form.userID, this.form.userPsw).then(
+                res => {
+                  // console.log(this.form.userID);
+                  // console.log(this.form.userPsw);
+
+                  // console.log(res);
+
+                  if (res.code === 502) {
+                    alert(res.msg);
+                  } else {
+                    let data = res.profile;
+                    console.log(document.cookie);
+
+                    document.cookie = res.cookie;
+                    window.sessionStorage.setItem("avatarUrl", data.avatarUrl);
+                    window.sessionStorage.setItem("nickName", data.nickname);
+                    window.sessionStorage.setItem("userId", data.userId);
+                    // data.cookie = sessionStorage.getItem("cookie");
+
+                    this.$store.commit("getUserInfo", data);
+                    this.$router.replace("/home");
+                    let timer = setTimeout(() => {
+                      window.location.reload();
+                    }, 300);
+                    clearTimeout(timer);
+                  }
+                },
+                rej => {
+                  alert("账号或密码错误！");
+                }
+              );
+            }
+          });
+      }
     },
     register() {
       this.$router.push("/register");
@@ -118,8 +134,8 @@ export default {
 }
 .message {
   position: absolute;
-  width: 60%;
-  bottom: 41%;
+  width: 100%;
+  bottom: 43%;
   left: 50%;
   transform: translate(-50%);
   padding-bottom: 2.1vh;
@@ -156,10 +172,13 @@ export default {
   font-size: 2.8vw !important;
   line-height: 5.1vh;
 }
+.message .getIdentify {
+  background: none;
+}
 .switchName {
   width: 30vw;
   bottom: -17% !important;
-  left: 78% !important;
+  left: 61% !important;
   background-color: rgba(253, 9, 1, 0);
   z-index: 1;
   text-decoration: underline;
@@ -169,10 +188,11 @@ export default {
 .userPsw,
 .identify {
   padding-left: 8vw;
+  width: 40%;
 }
 .btn {
   position: absolute;
-  bottom: 27%;
+  bottom: 25%;
   left: 50%;
   width: 60%;
   height: 60px;
