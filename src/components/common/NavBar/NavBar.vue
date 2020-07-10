@@ -79,6 +79,6 @@ export default {
   border-bottom: 2px solid #fff;
 }
 .NavBar-item {
-  margin: 0 5vw;
+  margin: 0 3vw;
 }
 </style>

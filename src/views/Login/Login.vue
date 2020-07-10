@@ -167,7 +167,7 @@ export default {
 .message .getIdentify,
 .switchName {
   width: 20vw;
-  left: 66% !important;
+  left: 61% !important;
   color: rgba(49, 49, 235, 0.842);
   font-size: 2.8vw !important;
   line-height: 5.1vh;

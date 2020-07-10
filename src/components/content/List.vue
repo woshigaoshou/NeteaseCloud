@@ -92,6 +92,9 @@ export default {
         this.songs = res.songs;
       });
     });
+    this.$bus.$on("musicPlay", () => {
+      this.updataModeName();
+    });
   }
 };
 </script>
