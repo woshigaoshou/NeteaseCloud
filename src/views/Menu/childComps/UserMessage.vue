@@ -69,7 +69,7 @@ export default {
   height: 6vh;
   line-height: 6vh;
   border-radius: 7vw/50%;
-  background-color: rgba(238, 60, 48, 0.993);
+  background-color: rgba(207, 68, 58, 0.911);
   color: #fff;
   margin: 0 auto;
 }
