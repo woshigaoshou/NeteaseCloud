@@ -173,7 +173,7 @@ export default {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 85%;
+  width: 76%;
   background-color: #fff;
   z-index: 99999999;
   transform: translate(-900px);
@@ -191,7 +191,7 @@ export default {
   top: 0;
   right: 0;
   height: 100vh;
-  width: 15vw;
+  width: 24vw;
   animation-name: mask;
   background-color: rgba(0, 0, 0, 0.5);
   animation-duration: 1.2s;
