@@ -422,11 +422,11 @@ p {
 }
 .playWay img:nth-child(2),
 .playWay img:nth-child(3) {
-  width: 65%;
-  height: 65%;
+  width: 50%;
+  height: 50%;
 }
 .playWay img:nth-child(1) {
-  width: 75%;
-  height: 75%;
+  width: 70%;
+  height: 70%;
 }
 </style>

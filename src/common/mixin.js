@@ -205,9 +205,10 @@ export const musicPlayMethodsMixin = {
       let this_musicDetail;
       if (this.$store.state.this_musicDetail) {
         this_musicDetail = this.$store.state.this_musicDetail;
+        this_musicDetail.currentValue = 0;
       }
 
-      this_musicDetail.currentValue = 0;
+
       this.currentValue = 0;
       this.$store.state.currentMusic.isPlay = false;
 
