@@ -129,7 +129,7 @@ export default {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(253, 9, 1, 0.822);
+  background-color: rgba(207, 68, 58, 0.911);
   font-size: 3vw;
 }
 .message {
