@@ -21,18 +21,26 @@ export default {
   },
   data() {
     return {
-      currentIndex: 0
+      currentIndex: 0,
+      flag: true
     };
   },
   methods: {
     backClick(index) {
       this.currentIndex = index;
+      this.flag = false;
       this.$bus.$emit("backClick", this.currentIndex);
+      let timeout = setTimeout(() => {
+        this.flag = true;
+        timeout = null;
+      }, 1000);
     }
   },
   mounted() {
     this.$bus.$on("changeIndex", index => {
-      this.currentIndex = index;
+      if (this.flag) {
+        this.currentIndex = index;
+      }
     });
   }
 };

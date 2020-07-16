@@ -94,7 +94,7 @@ export default {
     this.$bus.$on("backClick", index => {
       let that = this;
       throttle(
-        function() {
+        async function() {
           // console.log(this.$refs.scroll);
           this.$refs.scroll &&
             this.$refs.scroll.scrollTo(0, -this.$store.state.ThemeTopYs[index]);
