@@ -71,12 +71,13 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   width: 70vw;
   margin-left: 3vw;
   font-size: 3.2vw;
 }
 .ranktext {
-  margin: 2vw !important;
+  margin: 0 !important;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

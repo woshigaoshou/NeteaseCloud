@@ -57,6 +57,7 @@ export default {
 .NavBar {
   height: 3vh;
   display: flex;
+  justify-content: space-evenly;
   text-align: center;
   font-size: 4.5vw;
   color: #fff;
@@ -64,21 +65,16 @@ export default {
   margin-bottom: 6.5vh;
   margin-top: 1vh;
 }
-.NavBar div {
-  flex: 1;
-}
 .NavBar .title {
   width: 100%;
   height: 100%;
   padding-bottom: 1.2vh;
+  flex: 1;
   color: #fff;
   text-decoration: none;
 }
 .active .title {
   font-weight: 700;
   border-bottom: 2px solid #fff;
-}
-.NavBar-item {
-  margin: 0 3vw;
 }
 </style>

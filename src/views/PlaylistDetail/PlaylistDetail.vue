@@ -82,35 +82,78 @@ export default {
     }
   },
   methods: {
-    async getPlaylistDetail(id, cookie) {
-      let ids = [];
-      await getPlaylistDetail(id, cookie).then((res, reject) => {
-        // console.log(res);
-        this.playlist = res.playlist;
-        this.playlist.trackIds.forEach((item, index) => {
-          ids.push(item.id);
+    // async getPlaylistDetail(id, cookie) {
+    //   let ids = [];
+    //   await getPlaylistDetail(id, cookie).then(res => {
+    //     // console.log(res);
+    //     this.playlist = res.playlist;
+    //     this.playlist.trackIds.forEach((item, index) => {
+    //       ids.push(item.id);
+    //     });
+    //   });
+    //   return new Promise((resolve, reject) => {
+    //     resolve(ids);
+    //   });
+    // },
+    // async getSongDetail() {
+    //   this.trackIds = await this.getPlaylistDetail(
+    //     this.$route.query.id,
+    //     this.$store.state.cookie
+    //   );
+    //   // console.log(this.trackIds);
+    //   getSongDetail(this.trackIds).then(res => {
+    //     // console.log(res);
+    //     this.songs = res.songs;
+    //     // this.savePlaylist_ids();
+    //     // console.log(this.songs);
+    //   });
+    //   getSongUrl(this.trackIds).then(res => {
+    //     // console.log(res);
+    //     this.musicUrl = res.data;
+    //   });
+    // },
+
+    /*     重新学习promise之后优化
+    getSongDetail() {
+      getPlaylistDetail(this.$route.query.id)
+        .then(res => {
+          this.playlist = res.playlist;
+          this.playlist.trackIds.forEach((item, index) => {
+            this.trackIds.push(item.id);
+          });
+          return  getSongDetail(this.trackIds);
+        })
+        .then(res => {
+          this.songs = res.songs;
+          return getSongUrl(this.trackIds);
+        })
+        .then(res => {
+          this.musicUrl = res.data;
         });
-      });
-      return new Promise((resolve, reject) => {
-        resolve(ids);
-      });
-    },
-    async getSongDetail() {
-      this.trackIds = await this.getPlaylistDetail(
-        this.$route.query.id,
-        this.$store.state.cookie
-      );
-      // console.log(this.trackIds);
-      getSongDetail(this.trackIds).then(res => {
-        // console.log(res);
-        this.songs = res.songs;
-        // this.savePlaylist_ids();
-        // console.log(this.songs);
-      });
-      getSongUrl(this.trackIds).then(res => {
-        // console.log(res);
-        this.musicUrl = res.data;
-      });
+    } */
+
+    //结合axios.all以及es6解构赋值进行优化
+    getSongDetail() {
+      getPlaylistDetail(this.$route.query.id)
+        .then(res => {
+          this.playlist = res.playlist;
+          this.playlist.trackIds.forEach((item, index) => {
+            this.trackIds.push(item.id);
+          });
+          return this.$axios.all([
+            getSongDetail(this.trackIds),
+            getSongUrl(this.trackIds)
+          ]);
+        })
+        .then(
+          ([data1, data2]) => {
+            this.songs = data1.songs;
+            this.musicUrl = data2.data;
+          },
+          err => {
+            console.log(err);
+          }
+        );
     }
   },
   mixins: [returnHistoryMixin, musicPlayMixin, playAllMixin],
