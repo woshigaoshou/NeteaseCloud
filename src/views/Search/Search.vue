@@ -2,7 +2,7 @@
   <div>
     <TopBar class="TopBar">
       <div slot="left" class="icon-arrow-left" @click="returnHistory"></div>
-      <input type="text" slot="center" class="search" v-model="keywords" :placeholder="realkeyword" />
+      <input type="text" slot="center" class="search" v-model="keywords" :placeholder="showKeyword" />
       <div slot="right" class="icon-search2" @click="search"></div>
     </TopBar>
     <hotRank :title="title" :hotRank="hotRank" @hotRankClick="hotRankClick" v-show="!isSearch"></hotRank>
@@ -37,7 +37,7 @@ export default {
       keywords: "",
       title: "热搜榜",
       hotRank: [],
-      realkeyword: "",
+      showKeyword: "",
       isSearch: false,
       songs: []
     };
@@ -51,7 +51,7 @@ export default {
     },
     getSearchDefault() {
       getSearchDefault().then(res => {
-        this.realkeyword = res.data.realkeyword;
+        this.showKeyword = res.data.showKeyword;
       });
     },
     getSearchSuggest(keywords) {
@@ -80,7 +80,7 @@ export default {
     search() {
       if (this.keywords === "") {
         // this.getSearchData(this.realkeyword);
-        this.routerSelect(this.realkeyword);
+        this.routerSelect(this.showKeyword);
       } else {
         // this.getSearchData(this.keywords);
         this.routerSelect(this.keywords);
