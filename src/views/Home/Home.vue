@@ -3,8 +3,8 @@
     <div class="bcColor" :class="{RecommendActive: isRecommendActive}">
       <TopBar class="TopBar">
         <div slot="left" class="icon-menu1"></div>
-        <div slot="center">VueMusic</div>
-        <div slot="right" class="icon-search2"></div>
+        <div slot="center" @click="searchClick">VueMusic</div>
+        <div slot="right" class="icon-search2" @click="searchClick"></div>
       </TopBar>
       <NavBar
         :titles="titles"
@@ -20,7 +20,7 @@
         ref="scroll"
       >
         <HomeSwiper class="swiper" :banners="banners" v-show="isRecommendActive"></HomeSwiper>
-        <keep-alive exclude="Recommend,PlaylistDetail">
+        <keep-alive exclude="Recommend,PlaylistDetail,Singer,Search">
           <!-- <keep-alive> -->
           <!-- <router-view v-show="$store.state.cookie"></router-view> -->
           <router-view></router-view>
@@ -46,7 +46,7 @@ import Back from "@/components/content/Back";
 import { backColorMixin } from "@/common/mixin";
 
 import { getBanner, getRecommendResource } from "@/network/home";
-import { throttle } from "@/common/utils";
+import { throttle, IsPC } from "@/common/utils";
 
 export default {
   name: "Home",
@@ -81,6 +81,13 @@ export default {
     // console.log(this.$store.state.cookie);
   },
   mounted() {
+    window.onresize = function() {
+      if (IsPC()) {
+        alert("请在移动端中使用");
+      } else {
+        location.reload();
+      }
+    };
     this.$bus.$on("leftClick", () => {
       this.showMenu = true;
       this.flag = true;
@@ -128,6 +135,9 @@ export default {
 
       // this.activeChildRoute = "/Home" + path;
       // console.log(this.activeChildRoute);
+    },
+    searchClick() {
+      this.$router.push("/search");
     }
   }
 };

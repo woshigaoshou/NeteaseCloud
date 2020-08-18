@@ -41,6 +41,7 @@ export default {
 .TopBar .center {
   position: relative;
   flex: 1;
+  padding: 0;
   width: 0;
 }
 .TopBar .right {

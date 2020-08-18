@@ -74,7 +74,6 @@ img {
   top: 30vw;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: box;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

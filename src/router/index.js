@@ -13,6 +13,7 @@ const PlaylistDetail = () => import('@/views/PlaylistDetail/PlaylistDetail');
 const SingerPlaylist = () => import('@/views/SingerPlaylist/SingerPlaylist');
 const RecentPlay = () => import('@/views/RecentPlay/RecentPlay');
 const MusicDetail = () => import('@/views/MusicDetail/MusicDetail');
+const Search = () => import('@/views/Search/Search');
 
 Vue.use(VueRouter)
 
@@ -72,6 +73,10 @@ const routes = [
   {
     path: '/musicDetail',
     component: MusicDetail
+  },
+  {
+    path: '/search',
+    component: Search
   }
 ]
 

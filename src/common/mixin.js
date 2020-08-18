@@ -278,3 +278,76 @@ export const playTimeFilter = {
     }
   }
 }
+
+export const routerSelectMixin = {
+  methods: {
+    routerSelect(keywords) {
+      let routeObj = {
+        path: "/search",
+        query: { keywords }
+      }
+      if (typeof this.$route.query.keywords === 'undefined') {
+        this.$router.push(routeObj);
+      } else {
+        this.$router.replace(routeObj);
+      }
+    }
+  }
+}
+
+/* export const testF = {
+  beforeCreate() {
+    console.log('父组件beforeCreate');
+  },
+  created() {
+    console.log('父组件Create');
+  },
+  beforeMount() {
+    console.log('父组件beforeMount');
+  },
+  mounted() {
+    console.log('父组件Mounted');
+
+  },
+  beforeUpdate() {
+    console.log('父组件beforeUpdate');
+  },
+  updated() {
+    console.log('父组件updated');
+  },
+  beforeDestroy() {
+    console.log('父组件beforeDestroy');
+  },
+  destroyed() {
+    console.log('父组件destroyed');
+  }
+}
+
+export const testC = {
+  beforeCreate() {
+    console.log('子组件beforeCreate');
+  },
+  created() {
+    console.log('子组件Create');
+  },
+  beforeMount() {
+    console.log('子组件beforeMount');
+  },
+  mounted() {
+    console.log('子组件Mounted');
+
+  },
+  beforeUpdate() {
+    console.log('子组件beforeUpdate');
+  },
+  updated() {
+    console.log('子组件updated');
+
+  },
+  beforeDestroy() {
+    console.log('子组件beforeDestroy');
+  },
+  destroyed() {
+    console.log('子组件destroyed');
+  }
+} */
