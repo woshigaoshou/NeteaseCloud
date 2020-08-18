@@ -82,10 +82,11 @@ export default {
   },
   mounted() {
     window.onresize = function() {
+      location.reload();
+    };
+    window.onload = function() {
       if (IsPC()) {
         alert("请在移动端中使用");
-      } else {
-        location.reload();
       }
     };
     this.$bus.$on("leftClick", () => {
