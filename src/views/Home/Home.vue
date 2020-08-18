@@ -82,7 +82,9 @@ export default {
   },
   mounted() {
     window.onresize = function() {
-      location.reload();
+      setTimeout(function() {
+        location.reload();
+      }, 800);
     };
     window.onload = function() {
       if (IsPC()) {
