@@ -174,7 +174,7 @@ export default {
       let index = this.$store.state.currentPlaylist.index;
       let ids = this.$store.state.currentPlaylist.ids;
       let id = ids[index + 1];
-      // 直接改变state的状态值，这样避免两次播放同一个无法播放的歌曲，否则会在endPlay时再index-1，再次判断无法播放的歌曲
+      // 直接改变state的状态值，这样避免两次播放同一个无法播放的歌曲，否则会在endPlay时再index+1，再次判断无法播放的歌曲
       this.$store.commit("changeIndex", +1);
 
       //修改isNextMusic  再到action 失败的时候判断是否是true  是的话index+1  成功将isNextMusic改为false

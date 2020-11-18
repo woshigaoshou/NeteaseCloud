@@ -21,7 +21,8 @@ export default {
   data() {
     return {
       al: {},
-      ar: {}
+      ar: {},
+      test: "子组件数据"
     };
   },
   mixins: [unablePlayMixin, playAllMixin],

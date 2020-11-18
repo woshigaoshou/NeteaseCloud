@@ -5,6 +5,7 @@ import { getSongDetail } from "@/network/playlistDetail";
 
 export default {
   async changeMusic(context, data) {
+    console.log(context);
     // console.log(id);
     let currentSong = {};
     // console.log(data.that);
@@ -15,6 +16,7 @@ export default {
         if (res2.data[0].code === 200) {
           context.commit("changeContinuePlay", true);
           context.commit("changeIsPreMusic", false);
+          context.commit("changeIsNextMusic", false);
           currentSong.ar = res1.songs[0].ar;
           currentSong.name = res1.songs[0].name;
           currentSong.al = res1.songs[0].al;
@@ -27,6 +29,8 @@ export default {
         }
         else if (res2.data[0].code === -110) {
           console.log(data.that);
+          console.log((data));
+
           if (context.state.currentPlaylist.isPreMusic) {
             data.that.preMusic()
           }
@@ -34,7 +38,10 @@ export default {
             data.that.nextMusic()
           }
           else {
-            this.$store.commit("changeIndex", +1);
+            context.commit("changeIndex", +1);
+            console.log(context.state.currentPlaylist.index);
+
+
             data.that.endPlay();
           }
         }

@@ -210,7 +210,8 @@ export const musicPlayMethodsMixin = {
 
 
       this.currentValue = 0;
-      this.$store.state.currentMusic.isPlay = false;
+      this.$store.state.currentMusic.isPlay = false;    //需要优化
+      // this.$store.commit('changePlay')
 
       let type = this.$store.state.currentPlaylist.type;
       let index = this.$store.state.currentPlaylist.index;
