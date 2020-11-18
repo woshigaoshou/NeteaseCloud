@@ -8,7 +8,7 @@
     ></bottomAudio>
     <List v-show="$store.state.isShowList"></List>
     <!-- <List></List> -->
-    <span>master</span>
+    <span>master1</span>
   </div>
 </template>
 
