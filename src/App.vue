@@ -41,6 +41,9 @@ export default {
   opacity: 0;
   height: 0 !important;
 }
+.test {
+  font: outline;
+}
 /* .mvScroll .content {
   display: flex;
   flex-flow: nowrap !important;
